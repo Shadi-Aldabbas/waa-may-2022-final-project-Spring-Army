@@ -83,6 +83,12 @@ ownedBy : User
 lastRentedBy: User
 isOccupied: Boolean
 isActive: Boolean
+startDate: Date
+endDate: Date
+isDeleted: Boolean
+createdAt: Date
+updatedAt: Date
+deletedAt: Date
 ```
 
 Addres: 
