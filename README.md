@@ -89,6 +89,7 @@ isDeleted: Boolean
 createdAt: Date
 updatedAt: Date
 deletedAt: Date
+data:json
 ```
 
 Addres: 
@@ -97,6 +98,11 @@ streetAddress: String
 city: City
 state: State
 zipCode: int
+isDeleted: Boolean
+createdAt: Date
+updatedAt: Date
+deletedAt: Date
+data:json
 ```
 History: 
 ``` 
@@ -119,6 +125,11 @@ password: String
 role: Role
 LastLoggedInAt: Datetime
 active: Boolean
+isDeleted: Boolean
+createdAt: Date
+updatedAt: Date
+deletedAt: Date
+data:json
 ```
 
 #### Technical Details
