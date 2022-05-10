@@ -98,6 +98,17 @@ city: City
 state: State
 zipCode: int
 ```
+History: 
+``` 
+id:int
+ownerId: String
+tenantId:int
+price:money
+startDate:Date
+endDate: Date
+propertyId: int
+
+```
 
 User:
 ```
