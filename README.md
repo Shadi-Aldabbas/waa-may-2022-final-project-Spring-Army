@@ -72,10 +72,7 @@ Followings are the sample domain models. You may need to modify them and create 
 Property: 
 ``` 
 propertyName: String
-streetAddress: String
-city: City
-state: State
-zipCode: int
+address: Address
 propertyType: PropertyType
 numberOfBedrooms: int
 numberOfBathrooms: int
@@ -85,6 +82,38 @@ photos: List<String>
 ownedBy : User
 lastRentedBy: User
 isOccupied: Boolean
+isActive: Boolean
+startDate: Date
+endDate: Date
+isDeleted: Boolean
+createdAt: Date
+updatedAt: Date
+deletedAt: Date
+data:json
+```
+
+Addres: 
+``` 
+streetAddress: String
+city: City
+state: State
+zipCode: int
+isDeleted: Boolean
+createdAt: Date
+updatedAt: Date
+deletedAt: Date
+data:json
+```
+History: 
+``` 
+id:int
+ownerId: String
+tenantId:int
+price:money
+startDate:Date
+endDate: Date
+propertyId: int
+
 ```
 
 User:
@@ -96,6 +125,11 @@ password: String
 role: Role
 LastLoggedInAt: Datetime
 active: Boolean
+isDeleted: Boolean
+createdAt: Date
+updatedAt: Date
+deletedAt: Date
+data:json
 ```
 
 #### Technical Details
