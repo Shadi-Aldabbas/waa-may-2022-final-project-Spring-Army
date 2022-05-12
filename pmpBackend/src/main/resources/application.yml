@@ -1,5 +1,7 @@
 
 spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
   application:
     name: spring-data-demo-1
   datasource:
@@ -20,3 +22,5 @@ spring:
       mode: always
 server:
   port: 8080
+
+
