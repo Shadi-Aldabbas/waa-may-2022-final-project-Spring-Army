@@ -21,28 +21,32 @@ public class UserController {
 
 
          var user = userService.save(p);
-         GenericResponse result = new GenericResponse();
-         result.setStatus("fail");
-         result.setCode(-1);
+
          if(user.getId() > 0){
-           result.setStatus("Success");
-           result.setCode(200);
-           result.setMessage("User added successfully");
-           return result;
+           return  new GenericResponse("successfuly registered", 200, user);
          }
 
-         return result;
+         return  new GenericResponse("user has failed to register", 500, null);
     }
     @DeleteMapping
     public void deleteById(@RequestParam int p) {
         userService.delete(p);
     }
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAll() {
-        return ResponseEntity.ok(userService.getAll());
+    public ResponseEntity<GenericResponse> getAll() {
+        var result = userService.getAll();
+
+        return ResponseEntity.ok(new GenericResponse(result.size()+" User Found", 200,result));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getById(@PathVariable int id) {
-        return ResponseEntity.ok(userService.getById(id));
+    public ResponseEntity<GenericResponse> getById(@PathVariable int id) {
+        GenericResponse result = new GenericResponse("success", 200, userService.getById(id));
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<GenericResponse> getLastTenLoggedIn(@RequestParam int last10) {
+        GenericResponse result = new GenericResponse("success", 200, userService.getAll());
+        return ResponseEntity.ok(result);
     }
 }

@@ -6,11 +6,13 @@ import com.project.pmp.entity.User;
 import java.util.List;
 
 public interface UserService {
-    User save(User p);
+    UserDto save(User p);
 
     void delete(int id);
 
     UserDto getById(int id);
 
     List<UserDto> getAll();
+
+//    List<UserDto> findLast10Logged();
 }
