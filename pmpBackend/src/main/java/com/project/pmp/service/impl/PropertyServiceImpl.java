@@ -49,4 +49,15 @@ public class PropertyServiceImpl implements PropertyService {
 
         return result;
     }
+
+    @Override
+    public PropertyDto update(int id, PropertyDto propertyDto) {
+        var p = propertyRepository.findById(id);
+        if (p.isPresent()){
+            var property = modelMapper.map(p, Property.class);
+            propertyRepository.save(property);
+            return propertyDto;
+        }
+        return new PropertyDto();
+    }
 }

@@ -1,6 +1,7 @@
 package com.project.pmp.controller;
 
 import com.project.pmp.dto.GenericResponse;
+import com.project.pmp.dto.PropertyDto;
 import com.project.pmp.dto.UserDto;
 import com.project.pmp.entity.User;
 import com.project.pmp.service.UserService;
@@ -45,8 +46,19 @@ public class UserController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<GenericResponse> getLastTenLoggedIn(@RequestParam int last10) {
-        GenericResponse result = new GenericResponse("success", 200, userService.getAll());
+    public ResponseEntity<GenericResponse> getLastTenLoggedIn() {
+        GenericResponse result = new GenericResponse("success", 200, userService.getLastTenLoggedIn());
         return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{id}")
+    public GenericResponse update(@PathVariable int id, @RequestBody UserDto userDto){
+        var user = userService.update(id, userDto);
+        if(user.getId()>0){
+            return new GenericResponse("success", 200,user );
+        }
+        else{
+            return new GenericResponse("fail baby", 500,null );
+        }
     }
 }

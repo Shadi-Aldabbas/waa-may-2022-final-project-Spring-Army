@@ -3,6 +3,7 @@ package com.project.pmp.service;
 
 
 import com.project.pmp.dto.PropertyDto;
+import com.project.pmp.dto.UserDto;
 import com.project.pmp.entity.Property;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface PropertyService {
     PropertyDto getById(int id);
 
     List<PropertyDto> getAll();
+
+    PropertyDto update(int id, PropertyDto propertyDto);
+
 }
