@@ -61,18 +61,4 @@ public class UserController {
             return new GenericResponse("fail baby", 500,null );
         }
     }
-
-    @PutMapping("asdasd/{id}")
-    public GenericResponse updssate(@PathVariable int id, @RequestBody UserDto userDto){
-        var user = userService.update(id, userDto);
-        if(user.getId()>0){
-            return new GenericResponse("success", 200,user );
-        }
-        else{
-            return new GenericResponse("fail baby", 500,null );
-        }
-    }
-
-//    test
-//    tesetsetsetset
 }
