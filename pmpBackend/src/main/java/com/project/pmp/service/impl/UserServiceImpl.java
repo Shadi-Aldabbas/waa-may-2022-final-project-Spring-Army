@@ -5,6 +5,7 @@ import com.project.pmp.entity.User;
 import com.project.pmp.repository.UserRepository;
 import com.project.pmp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -18,9 +19,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private final UserRepository userRepo;
+    @Autowired
+    private final ModelMapper modelMapper;
     @Override
-    public User save(User p) {
-       return userRepo.save(p);
+    public UserDto save(User p) {
+       return modelMapper.map(userRepo.save(p), UserDto.class);
     }
 
     @Override
@@ -30,29 +33,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getById(int id) {
-        UserDto result = new UserDto();
-        var item = userRepo.findById(id).get();
-        result.setEmail(item.getEmail());
-        result.setFirstName(item.getFirstName());
-        result.setLastname(item.getLastname());
-        result.setId(item.getId());
-        result.setPassword(item.getPassword());
-        return result;
+        UserDto user = modelMapper.map(userRepo.findById(id).get(), UserDto.class);
+        System.out.printf(user.toString());
+        return user;
     }
 
     @Override
     public List<UserDto> getAll() {
         var result= new ArrayList<UserDto>();
         userRepo.findAll().forEach(item -> {
-            UserDto p = new UserDto();
-            p.setId(item.getId());
-            p.setFirstName(item.getFirstName());
-            p.setLastname(item.getLastname());
-            p.setEmail(item.getEmail());
-            p.setPassword(p.getPassword());
-            result.add(p);
+            UserDto user = modelMapper.map(item, UserDto.class);
+            result.add(user);
         });
 
         return result;
     }
+
+//    @Override
+//    public List<UserDto> findLast10Logged() {
+//        var result= new ArrayList<UserDto>();
+//        userRepo.findTop10ByLastLoggedInAtDesc().forEach(item->{
+//            UserDto user = modelMapper.map(item, UserDto.class);
+//            result.add(user);
+//        });
+//        return result;
+//    }
 }
