@@ -1,6 +1,7 @@
 package com.project.pmp.service.impl;
 
 import com.project.pmp.dto.UserDto;
+import com.project.pmp.entity.Property;
 import com.project.pmp.entity.User;
 import com.project.pmp.repository.UserRepository;
 import com.project.pmp.service.UserService;
@@ -48,6 +49,29 @@ public class UserServiceImpl implements UserService {
 
         return result;
     }
+
+    @Override
+    public List<UserDto> getLastTenLoggedIn() {
+        var result= new ArrayList<UserDto>();
+        userRepo.findTop10ByIdIsNotNullOrderByLastLoggedInAtDesc().forEach(item -> {
+            UserDto user = modelMapper.map(item, UserDto.class);
+            result.add(user);
+            System.out.println(item);
+        });
+        return result;
+    }
+
+    @Override
+    public UserDto update(int id, UserDto userDTO) {
+        var p = userRepo.findById(id);
+        if(p.isPresent()){
+            var user = modelMapper.map(userDTO, User.class);
+            userRepo.save(user);
+            return userDTO;
+        }
+        return new UserDto();
+    }
+
 
 //    @Override
 //    public List<UserDto> findLast10Logged() {

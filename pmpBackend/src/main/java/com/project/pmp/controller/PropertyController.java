@@ -1,6 +1,7 @@
 package com.project.pmp.controller;
 
 import com.project.pmp.dto.GenericResponse;
+import com.project.pmp.dto.PropertyDto;
 import com.project.pmp.entity.Property;
 import com.project.pmp.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +43,14 @@ public class PropertyController {
         return ResponseEntity.ok(result);
     }
 
+    @PutMapping("/{id}")
+    public GenericResponse update(@PathVariable int id, @RequestBody PropertyDto propertyDto){
+        var property = propertyService.update(id, propertyDto);
+        if(property.getId()>0){
+            return new GenericResponse("success", 200,property );
+        }
+        else{
+            return new GenericResponse("fail baby", 500,null );
+        }
+    }
 }

@@ -14,5 +14,9 @@ public interface UserService {
 
     List<UserDto> getAll();
 
+    List<UserDto> getLastTenLoggedIn();
+
+    UserDto update(int id, UserDto userDTO);
+
 //    List<UserDto> findLast10Logged();
 }
