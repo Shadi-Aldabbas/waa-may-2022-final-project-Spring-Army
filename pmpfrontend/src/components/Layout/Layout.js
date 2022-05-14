@@ -27,6 +27,7 @@ import Sidebar from "../Sidebar";
 import Dashboard from "../../pages/dashboard";
 import Typography from "../../pages/typography";
 import Notifications from "../../pages/notifications";
+import Property from "../../pages/Property/Property";
 import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
 import Icons from "../../pages/icons";
@@ -50,13 +51,14 @@ function Layout(props) {
             className={classnames(classes.content, {
               [classes.contentShift]: layoutState.isSidebarOpened,
             })}
-          >
+          > 
             <div className={classes.fakeToolbar} />
             <Switch>
               <Route path="/app/dashboard" component={Dashboard} />
               <Route path="/app/typography" component={Typography} />
               <Route path="/app/tables" component={Tables} />
               <Route path="/app/notifications" component={Notifications} />
+              <Route path="/app/properties" component={Property} />
               <Route
                 exact
                 path="/app/ui"

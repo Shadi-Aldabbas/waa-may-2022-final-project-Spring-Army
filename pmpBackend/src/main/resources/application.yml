@@ -21,5 +21,11 @@ spring:
       mode: always
 server:
   port: 8080
-
+STRIPE_SECRET_KEY: sk_test_51KyhH9HIoQnhhgnMW2KuQsCXJR4LaSJGgVHM8BSNN0b5xz1ZDQ85WulDbKwZ4LwOxYj0S1tsmWTHu9zVGPAiPEr700GcV8zGF9
+amazonProperties:
+  endpointUrl: https://s3.us-east-1.amazonaws.com
+  accessKey: AKIAXCVZWRG63YNWNZFZ
+  secretKey: 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
+  bucketName: pmp-file-upload
+  region: us-east-1
 
