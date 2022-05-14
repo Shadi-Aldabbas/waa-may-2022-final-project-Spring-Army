@@ -7,6 +7,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.project.pmp.service.AmazonClientService;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,6 +60,12 @@ public class AmazonClientServiceImpl implements AmazonClientService {
             e.printStackTrace();
         }
         return fileUrl;
+    }
+
+    public String delete(String fileUrl) {
+        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+        s3client.deleteObject(new DeleteObjectRequest(bucketName + "/", fileName));
+        return "Successfully deleted";
     }
 
     //

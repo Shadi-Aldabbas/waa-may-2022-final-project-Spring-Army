@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class PropertyDto {
+
+    private int id;
     private Address address;
     private int numberOfBedrooms;
     private int numberOfBathrooms;

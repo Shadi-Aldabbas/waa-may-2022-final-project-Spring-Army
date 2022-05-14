@@ -42,12 +42,20 @@ const PieChartData = [
   { name: "Group D", value: 200, color: "success" },
 ];
 
+// const pieChartData = [
+//   { name: "Group A", value: 400 },
+//   { name: "Group B", value: 300 },
+//   { name: "Group C", value: 300 },
+//   { name: "Group D", value: 200 },
+// ];
+
 export default function Dashboard(props) {
   var classes = useStyles();
   var theme = useTheme();
 
   // local
   var [mainChartState, setMainChartState] = useState("monthly");
+  var [activeIndex, setActiveIndexId] = useState(0);
 
   return (
     <>
@@ -267,44 +275,22 @@ export default function Dashboard(props) {
             </div>
           </Widget>
         </Grid>
-        <Grid item lg={3} md={4} sm={6} xs={12}>
-          <Widget title="Revenue Breakdown" upperTitle className={classes.card}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <ResponsiveContainer width="100%" height={144}>
-                  <PieChart>
-                    <Pie
-                      data={PieChartData}
-                      innerRadius={30}
-                      outerRadius={40}
-                      dataKey="value"
-                    >
-                      {PieChartData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={theme.palette[entry.color].main}
-                        />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-              </Grid>
-              <Grid item xs={6}>
-                <div className={classes.pieChartLegendWrapper}>
-                  {PieChartData.map(({ name, value, color }, index) => (
-                    <div key={color} className={classes.legendItemContainer}>
-                      <Dot color={color} />
-                      <Typography style={{ whiteSpace: "nowrap", fontSize: 12 }} >
-                        &nbsp;{name}&nbsp;
-                      </Typography>
-                      <Typography color="text" colorBrightness="secondary">
-                        &nbsp;{value}
-                      </Typography>
-                    </div>
-                  ))}
-                </div>
-              </Grid>
-            </Grid>
+        <Grid item xs={12} md={4}>
+          <Widget title="Pie Chart with Tooltips" noBodyPadding upperTitle>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart width={200} height={300}>
+                <Pie
+                  activeIndex={activeIndex}
+                  // activeShape={renderActiveShape}
+                  data={PieChartData}
+                  innerRadius={60}
+                  outerRadius={80}
+                  fill={theme.palette.primary.main}
+                  dataKey="value"
+                  onMouseEnter={(e, id) => setActiveIndexId(id)}
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </Widget>
         </Grid>
         <Grid item xs={12}>
