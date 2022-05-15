@@ -15,21 +15,18 @@ public class Rent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany
-    @JoinColumn(name = "ownerId")
-    private List<User> ownerId;
+    @OneToOne
+    private User owner;
 
-    @OneToMany
-    @JoinColumn(name = "ownerId")
-    private List<User> tenantId;
+    @OneToOne
+    private User tenant;
 
     private double price;
     private Date startDate;
     private Date endDate;
 
-    @OneToMany
-    @JoinColumn(name = "propertyId")
-    private List<Property> propertyId ;
+    @OneToOne
+    private Property property;
 
 
 

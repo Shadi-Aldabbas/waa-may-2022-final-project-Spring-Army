@@ -19,8 +19,7 @@ public class UserController {
 
     @PostMapping
     public GenericResponse save(@RequestBody User p) {
-
-
+        p.setActive(true);
          var user = userService.save(p);
 
          if(user.getId() > 0){
@@ -36,6 +35,13 @@ public class UserController {
     @GetMapping
     public ResponseEntity<GenericResponse> getAll() {
         var result = userService.getAll();
+
+        return ResponseEntity.ok(new GenericResponse(result.size()+" User Found", 200,result));
+    }
+
+    @GetMapping("/most10Tenant")
+    public ResponseEntity<GenericResponse> findTop10MostTenant() {
+        var result = userService.findTop10MostTenant();
 
         return ResponseEntity.ok(new GenericResponse(result.size()+" User Found", 200,result));
     }
