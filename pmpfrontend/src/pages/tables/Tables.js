@@ -43,6 +43,17 @@ export default function Tables() {
     <>
       <PageTitle title="Tables" />
       <Grid container spacing={4}>
+      <Grid item xs={6}>
+          <MUIDataTable
+            title="Employee List"
+            data={datatableData}
+            columns={["Name", "Company", "City", "State"]}
+            options={{
+              rowsPerPage:5,
+              download:false,
+            }}
+          />
+        </Grid>
         <Grid item xs={12}>
           <MUIDataTable
             title="Employee List"

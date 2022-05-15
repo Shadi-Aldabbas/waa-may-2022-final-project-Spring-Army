@@ -4,8 +4,8 @@ import { makeStyles } from "@material-ui/styles";
 import MUIDataTable from "mui-datatables";
 
 // components
-import PageTitle from "../../components/PageTitle";
-import Widget from "../../components/Widget";
+import PageTitle from "../../components/PageTitle/PageTitle";
+import Widget from "../../components/Widget/Widget";
 import Table from "../dashboard/components/Table/Table";
 
 // data
@@ -37,28 +37,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Property() {
+export default function Properties() {
   const classes = useStyles();
   return (
     <>
-      <PageTitle title="Tables" />
-      <Grid container spacing={4}>
-        <Grid item xs={12}>
-          <MUIDataTable
-            title="Employee List"
-            data={datatableData}
-            columns={["Name", "Company", "City", "State"]}
-            options={{
-              filterType: "checkbox",
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Widget title="Material-UI Table" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
-            <Table data={mock.table} />
-          </Widget>
-        </Grid>
-      </Grid>
+     
     </>
   );
 }

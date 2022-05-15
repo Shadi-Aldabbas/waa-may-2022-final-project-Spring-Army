@@ -27,11 +27,11 @@ import Sidebar from "../Sidebar";
 import Dashboard from "../../pages/dashboard";
 import Typography from "../../pages/typography";
 import Notifications from "../../pages/notifications";
-import Property from "../../pages/Property/Property";
+import Properties from "../../pages/Properties/Properties";
 import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
 import Icons from "../../pages/icons";
-import Charts from "../../pages/charts";
+import ChartsDemo from "../../pages/charts/ChartsDemo";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -58,7 +58,7 @@ function Layout(props) {
               <Route path="/app/typography" component={Typography} />
               <Route path="/app/tables" component={Tables} />
               <Route path="/app/notifications" component={Notifications} />
-              <Route path="/app/properties" component={Property} />
+              <Route path="/app/properties" component={Properties} />
               <Route
                 exact
                 path="/app/ui"
@@ -66,7 +66,7 @@ function Layout(props) {
               />
               <Route path="/app/ui/maps" component={Maps} />
               <Route path="/app/ui/icons" component={Icons} />
-              <Route path="/app/ui/charts" component={Charts} />
+              <Route path="/app/ui/charts" component={ChartsDemo} />
             </Switch>
             <Box
               mt={5}
