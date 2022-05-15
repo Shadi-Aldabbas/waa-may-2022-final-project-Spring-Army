@@ -13,6 +13,7 @@ public interface UserService {
     UserDto getById(int id);
 
     List<UserDto> getAll();
+    List<UserDto> findTop10MostTenant();
 
     List<UserDto> getLastTenLoggedIn();
 
