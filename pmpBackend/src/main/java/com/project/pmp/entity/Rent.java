@@ -24,6 +24,7 @@ public class Rent {
     private double price;
     private Date startDate;
     private Date endDate;
+    private Boolean isDeleted;
 
     @OneToOne
     private Property property;

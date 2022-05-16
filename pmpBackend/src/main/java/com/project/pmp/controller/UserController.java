@@ -1,10 +1,15 @@
 package com.project.pmp.controller;
 
 import com.project.pmp.dto.GenericResponse;
+import com.project.pmp.dto.PasswordResetDto;
 import com.project.pmp.dto.PropertyDto;
 import com.project.pmp.dto.UserDto;
 import com.project.pmp.entity.User;
+import com.project.pmp.service.SmsService;
 import com.project.pmp.service.UserService;
+import com.telesign.MessagingClient;
+import com.telesign.RestClient;
+import com.telesign.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +21,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private SmsService smsService;
 
     @PostMapping
     public GenericResponse save(@RequestBody User p) {
@@ -67,4 +74,17 @@ public class UserController {
             return new GenericResponse("fail baby", 500,null );
         }
     }
+
+    @GetMapping("/password")
+    public ResponseEntity<GenericResponse> passwordReset(){
+
+        var testUser = new UserDto();
+        testUser.setPhone("16418192194");
+        var result = smsService.send(testUser,"Dear Shadi, your property has been rented by Hasim, Thank you!");
+        if(result.isSent()){
+            return ResponseEntity.ok(new GenericResponse("Message has been sent succesfully!",200,null));
+        }
+        return ResponseEntity.status(500).body(new GenericResponse("Sorry we can not send the message right now!",500,null));
+    }
+
 }
