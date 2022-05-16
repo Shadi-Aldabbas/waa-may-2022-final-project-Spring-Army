@@ -1,14 +1,15 @@
 package com.project.pmp.controller;
 
 import com.project.pmp.dto.GenericResponse;
-import com.project.pmp.dto.UserDto;
 import com.project.pmp.entity.User;
 import com.project.pmp.service.UserService;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -34,6 +35,18 @@ public class UserController {
     }
     @GetMapping
     public ResponseEntity<GenericResponse> getAll() {
+        var result = userService.getAll();
+
+        return ResponseEntity.ok(new GenericResponse(result.size()+" User Found", 200,result));
+    }
+
+    @GetMapping("/some")
+    public ResponseEntity<GenericResponse> getSome(Principal principal) {
+
+        KeycloakAuthenticationToken keycloakAuthenticationToken = (KeycloakAuthenticationToken) principal;
+        AccessToken accessToken = keycloakAuthenticationToken.getAccount().getKeycloakSecurityContext().getToken();
+        System.out.println(accessToken.getPreferredUsername());
+        System.out.println(accessToken.getRealmAccess().getRoles());
         var result = userService.getAll();
 
         return ResponseEntity.ok(new GenericResponse(result.size()+" User Found", 200,result));

@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
   application:
@@ -19,8 +21,38 @@ spring:
   sql:
     init:
       mode: always
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          pmp-oauth2 0-react-client:
+#            client-id: pmp-oauth2.0-react-client
+#            provider: keycloak
+#            client-secret: sbnoht5x1pbplRYdjv8gvttZtiHve2nq
+#            scope:
+#             - openid
+#             - profile
+#             - roles
+#            authorization-grant-type: authorization_code
+#            redirect-uri: http://localhost:8080/login/oauth2/code/pmp-oauth2.0-react-client
+#        provider:
+#          keycloak:
+#            issuer-uri: http://127.0.0.1:8024/auth/realms/pmp-oauth2.0-react-client
 server:
   port: 8080
+
+keycloak:
+  realm: pmp
+  auth-server-url: http://127.0.0.1:8024/auth
+  resource: pmpapp
+  bearer-only: true
+  ssl-required: none
+  use-resource-role-mappings: true
+  credentials:
+    secret: os3bY12bBi4xzrV5rI5SRHrEXaxvlLcg
+
+
+
 
 amazonProperties:
   endpointUrl: https://s3.us-east-1.amazonaws.com
@@ -28,4 +60,6 @@ amazonProperties:
   secretKey: NWWppog1Q8nehaeoiGUBvuLm6Vcxc5nmarP5yLsL
   bucketName: pmp-file-upload
   region: us-east-1
+
+
 
