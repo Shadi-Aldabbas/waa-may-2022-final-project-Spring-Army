@@ -175,11 +175,11 @@ function Login(props) {
                   },
                 }}
                 value={loginValue}
-                onChange={e => setLoginValue(e.target.value)}
+                onChange={e => setLoginValue(e.target.value)} 
                 margin="normal"
                 placeholder="Email Adress"
                 type="email"
-                fullWidth
+                // fullWidth
               />
               <TextField
                 id="password"

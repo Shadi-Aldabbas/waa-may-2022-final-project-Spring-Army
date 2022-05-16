@@ -1,7 +1,7 @@
 package com.project.pmp.service.impl;
 
+import com.project.pmp.dto.IncomeDtoInterface;
 import com.project.pmp.dto.PropertyDto;
-import com.project.pmp.dto.UserDto;
 import com.project.pmp.entity.Property;
 import com.project.pmp.repository.PropertyRepository;
 import com.project.pmp.service.PropertyService;
@@ -51,6 +51,26 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    public List<PropertyDto> findTop10Rented() {
+        var result= new ArrayList<PropertyDto>();
+        System.out.printf( propertyRepository.findTop10Rented().toString());
+        propertyRepository.findTop10Rented().forEach(item -> {
+            PropertyDto property = modelMapper.map(item, PropertyDto.class);
+            result.add(property);
+        });
+        return result;
+    }
+    @Override
+    public List<PropertyDto> findPropertyByLeaseEndinginMonth() {
+        var result= new ArrayList<PropertyDto>();
+        propertyRepository.findPropertyByLeaseEndinginMonth().forEach(item -> {
+            PropertyDto property = modelMapper.map(item, PropertyDto.class);
+            result.add(property);
+        });
+        return result;
+    }
+
+    @Override
     public PropertyDto update(int id, PropertyDto propertyDto) {
         var p = propertyRepository.findById(id);
         if (p.isPresent()){
@@ -59,5 +79,14 @@ public class PropertyServiceImpl implements PropertyService {
             return propertyDto;
         }
         return new PropertyDto();
+    }
+
+    public List<IncomeDtoInterface> findTotalincome() {
+        var result= new ArrayList<IncomeDtoInterface>();
+        propertyRepository.findTotalincome().forEach(item -> {
+            IncomeDtoInterface income = modelMapper.map(item, IncomeDtoInterface.class);
+            result.add(income);
+        });
+        return result;
     }
 }

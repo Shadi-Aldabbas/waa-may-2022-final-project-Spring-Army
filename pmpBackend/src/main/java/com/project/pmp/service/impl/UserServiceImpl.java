@@ -51,6 +51,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDto> findTop10MostTenant() {
+        var result= new ArrayList<UserDto>();
+        userRepo.findTop10MostTenant().forEach(item -> {
+            UserDto user = modelMapper.map(item, UserDto.class);
+            result.add(user);
+        });
+
+        return result;
+    }
+
+    @Override
     public List<UserDto> getLastTenLoggedIn() {
         var result= new ArrayList<UserDto>();
         userRepo.findTop10ByIdIsNotNullOrderByLastLoggedInAtDesc().forEach(item -> {
