@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Paper,Typography } from "@material-ui/core";
 import Widget from "../../components/Widget/Widget";
 import DefaultDonutChart from "../charts/DefaultDonutChart";
 import DefaultLineChart from "../charts/DefaultLineChart";
 import MUIDataTable from "mui-datatables";
+import { apiLink } from "../../utils/ApiOpereations";
+import axios from "axios";
+import axiosInstance from "../../utils/interceptor";
 
 const DonutChartData = [
   { name: "Desktop", value: 400, color: "#037971" },
@@ -68,6 +71,24 @@ const datatableData = [
 ];
 
 export default function Dashboard(props) {
+
+  useEffect(async() => {   
+   
+   
+    await fetchLast10();
+
+
+  }, []);
+
+  const fetchLast10 = async ()=>{
+
+    axiosInstance.get(apiLink.last10properties)
+    .then(response => console.log(response))
+    .catch(err => console.log(err));
+    
+
+  }
+
   return (
     <Grid container justifyContent="space-between" alignItems="baseline">
       <Grid item xs={12}>
