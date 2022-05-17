@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Paper,Typography,Button } from "@material-ui/core";
+import { Grid, Paper, Typography, Button } from "@material-ui/core";
 import Widget from "../../components/Widget/Widget";
 import DefaultDonutChart from "../charts/DefaultDonutChart";
 import DefaultLineChart from "../charts/DefaultLineChart";
 import MUIDataTable from "mui-datatables";
 import { apiLink } from "../../utils/ApiOpereations";
 import axiosInstance from "../../utils/interceptor";
+import { totalIncomePerLocation } from "./service.dashboard";
 
 const DonutChartData = [
   { name: "Desktop", value: 400, color: "#037971" },
@@ -15,6 +16,16 @@ const DonutChartData = [
   { name: "1", value: 200, color: "#890" },
   { name: "C2TV", value: 200, color: "#620" },
   { name: "CT3V", value: 200, color: "#89b" },
+];
+const COLORS = [
+  "#89b620",
+  "#3c91e6",
+  "#e5e5e5",
+  "#037971",
+  "#74C69D",
+  "#5D4E6D",
+  "#F7942F",
+  "#EFABCD",
 ];
 
 const LineChartData = [
@@ -49,106 +60,78 @@ const LineChartData = [
 ];
 const series = [{ key: "uv", color: "#8884D8" }];
 
-
-
-
-const datatableData = [
-  ["Joe James", "Example Inc.", "Yonkers", "NY"],
-  ["John Walsh", "Example Inc.", "Hartford", "CT"],
-  ["Bob Herm", "Example Inc.", "Tampa", "FL"],
-  ["James Houston", "Example Inc.", "Dallas", "TX"],
-  ["Prabhakar Linwood", "Example Inc.", "Hartford", "CT"],
-  ["Kaui Ignace", "Example Inc.", "Yonkers", "NY"],
-  ["Esperanza Susanne", "Example Inc.", "Hartford", "CT"],
-  ["Christian Birgitte", "Example Inc.", "Tampa", "FL"],
-  ["Meral Elias", "Example Inc.", "Hartford", "CT"],
-  ["Deep Pau", "Example Inc.", "Yonkers", "NY"],
-  ["Sebastiana Hani", "Example Inc.", "Dallas", "TX"],
-  ["Marciano Oihana", "Example Inc.", "Yonkers", "NY"],
-  ["Brigid Ankur", "Example Inc.", "Dallas", "TX"],
-  ["Anna Siranush", "Example Inc.", "Yonkers", "NY"],
-  ["Avram Sylva", "Example Inc.", "Hartford", "CT"],
-  ["Serafima Babatunde", "Example Inc.", "Tampa", "FL"],
-  ["Gaston Festus", "Example Inc.", "Tampa", "FL"],
-];
-
 export default function Dashboard(props) {
+  const [donutChartData, setDonutChartData] = useState("");
 
-
- const [last10Prop, setLast10Prop] = useState([]);
- const [test, setTest] = useState("asd");
-
-  useEffect(() => {   
-    axiosInstance.get(apiLink.last10properties)
-    .then(response => {
-      setLast10Prop(response.data.data)
-      let res = response.data.data;
-      console.log("first",res.deleted)
-      setTest(res);
-
-    let result = [];
-    res.forEach(element => {
-      console.log(element)
-    });
-
-    
+  useEffect(() => {
+    const getData = async () => {
+      const incomePerLocationData = await totalIncomePerLocation();
      
-    })
-    .catch(err => console.log(err));
+      const data = [];
+      incomePerLocationData?.data?.forEach((item, index) => {
+        data.push({
+          name: `${item.address.zipCode}`,
+          value: item.income,
+          color: COLORS[index % 7],
+        });
+      });
+      setDonutChartData(data);
+    };
+    getData();
+    console.log("donutChartData", donutChartData);
   }, []);
 
   return (
-    <Grid  container justifyContent="space-between" alignItems="baseline">
-      {console.log("somehow test", test)}
+    <Grid container justifyContent="space-between" alignItems="baseline">
       <Grid item xs={12}>
-      <Widget title="Line Chart" upperTitle>
-        <Grid container direction="column" justifyContent="center">
-          <Grid item xs={12}>
-            <div style={{ width: "100%", height: 300 }}>
-              <DefaultLineChart
-                data={LineChartData}
-                dataKey="name"
-                series={series}
-                margin={{
-                  top: 50,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
+        <Widget title="Line Chart" upperTitle>
+          <Grid container direction="column" justifyContent="center">
+            <Grid item xs={12}>
+              <div style={{ width: "100%", height: 300 }}>
+                <DefaultLineChart
+                  data={LineChartData}
+                  dataKey="name"
+                  series={series}
+                  margin={{
+                    top: 50,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                />
+              </div>
+            </Grid>
+          </Grid>
+        </Widget>
+      </Grid>
+      <Grid item xs={6}>
+        <Widget title="Donut Chart" upperTitle>
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid item xs={12}>
+              <DefaultDonutChart
+                width={450}
+                height={440}
+                cx={"50%"}
+                cy={"50%"}
+                padding={0}
+                outerRadius={"90%"}
+                innerRadius={100}
+                cornerRadius={0}
+                data={donutChartData ? donutChartData: DonutChartData }
               />
-            </div>
+            </Grid>
           </Grid>
-        </Grid>
-      </Widget>
-    </Grid>
-    <Grid item xs={6}>
-      <Widget title="Donut Chart" upperTitle>
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs={12}>
-            <DefaultDonutChart
-              width={450}
-              height={440}
-              cx={"50%"}
-              cy={"50%"}
-              padding={0}
-              outerRadius={"90%"}
-              innerRadius={100}
-              cornerRadius={0}
-              data={DonutChartData}
-            />
-          </Grid>
-        </Grid>
-      </Widget>
-    </Grid>
-    <Grid item xs={6}>
+        </Widget>
+      </Grid>
+      {/* <Grid item xs={6}>
           <MUIDataTable
             title="Employee List"
-            data={test.map(item => {
+            data={test?.map(item => {
               return [
                   item.name,
                   item.numberOfBathrooms,
@@ -163,8 +146,8 @@ export default function Dashboard(props) {
               download:false,
             }}
           />
-    </Grid>
-    {/* <Grid item xs={6}>
+    </Grid> */}
+      {/* <Grid item xs={6}>
           <MUIDataTable
             title="Employee List"
             data={datatableData}
@@ -177,7 +160,6 @@ export default function Dashboard(props) {
             }}
           />
     </Grid> */}
-    
-  </Grid>
+    </Grid>
   );
 }

@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/styles";
 import NumberFormat from "react-number-format";
 import AttachMoney from "@material-ui/icons/AttachMoney";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { deleteProperty } from "../../pages/Properties/service.property";
 
 import StripeCheckout from "react-stripe-checkout";
 
@@ -34,10 +35,9 @@ export default function Property({ data }) {
 
   const publishableKey =
     "pk_test_51KyhH9HIoQnhhgnMLhLiuKU8EkKdT0V6eUBzIJiKKcUw0u7YlgGdSxNlYCJLh4QiMCz0bfLdQIldzC8QXTNndJ2C00fk1i4QWh";
-  const stripePrice = data.rentAmount * 100;
+  const stripePrice = data?.rentAmount * 100;
 
   const onToken = (token) => {
-    console.log(token);
     axios
       .post("http://localhost:8080/payment", {
         amount: stripePrice,
@@ -51,6 +51,17 @@ export default function Property({ data }) {
       });
   };
 
+  const handleDelete = async () => {
+    try {
+      const addedProperty = await deleteProperty(
+        data.id
+      );
+      // setSnackbar({ ...snackbar, success: true });
+    } catch (e) {
+      // setSnackbar({ ...snackbar, failed: true });
+    }
+  };
+
   return (
     <>
       <Paper className={classes.Paper}>
@@ -62,7 +73,7 @@ export default function Property({ data }) {
           <Grid item align="start" xs={11}>
             <Typography variant="h4">
               <NumberFormat
-                value={data.rentAmount}
+                value={data?.rentAmount}
                 displayType={"text"}
                 thousandSeparator={true}
                 prefix={"$"}
@@ -71,19 +82,19 @@ export default function Property({ data }) {
           </Grid>
           <Grid item align="start" xs={11}>
             <Typography variant="body1">
-              {data.propertyType} {data.numberOfBedrooms} bds{" "}
-              {data.numberOfBathrooms} bths - for rent
+              {data?.propertyType} {data?.numberOfBedrooms} bds{" "}
+              {data?.numberOfBathrooms} bths - for rent
             </Typography>
-          </Grid>
+          </Grid> 
           <Grid item align="start" xs={11}>
             <Typography variant="body1">
-              {data.address.state} {data.address.city} {data.address.street} -{" "}
-              {data.address.zipCode}
+              {data?.address?.state} {data?.address?.city} {data?.address?.street} -{" "}
+              {data?.address?.zipCode}
             </Typography>
           </Grid>
           <Grid item align="start" xs={11}>
             <Typography variant="caption">
-              {data.ownedBy.firstName} {data.ownedBy.lastname}{" "}
+              {data?.ownedBy?.firstName} {data?.ownedBy?.lastname}{" "}
             </Typography>
           </Grid>
           <Grid item align="end" xs={11}>
@@ -92,6 +103,7 @@ export default function Property({ data }) {
               variant="contained"
               color="secondary"
               startIcon={<DeleteIcon />}
+              onClick={handleDelete}
             >
               Delete
             </Button>

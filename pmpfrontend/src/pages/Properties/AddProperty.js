@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Button,
   Typography,
   TextField,
   InputAdornment,
-  MenuItem
+  MenuItem,
 } from "@material-ui/core";
+import { Snackbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { DropzoneAreaBase } from "material-ui-dropzone";
+import { addProperty } from "./service.property";
 
 const useStyles = makeStyles((theme) => ({
   tableOverflow: {
@@ -18,22 +20,44 @@ const useStyles = makeStyles((theme) => ({
 
 const PropertyTypes=[
   {
-    value: 'Apartment',
+    value: 'HOUSE',
+    label: 'House',
+  },
+  {
+    value: 'APARTMENT',
     label: 'Apartment',
   },
   {
-    value: 'Garage',
-    label: 'Garage',
+    value: 'LAND',
+    label: 'Land',
   },
   {
-    value: 'Office',
+    value: 'OFFICE',
     label: 'Office',
   },
- 
 ]
 
 export default function AddProperty() {
   const classes = useStyles();
+  const [snackbar, setSnackbar] = useState({
+    success: false,
+    failed: false,
+    successMessage: 'Requested successfully!',
+    failureMessage: 'Failed to request campaign!',
+  });
+
+  const handleCreate = async () => {
+    console.log({...property,"address":{...address}});
+    try {
+      const addedProperty = await addProperty(
+        property,
+        address,
+      );
+      setSnackbar({ ...snackbar, success: true });
+    } catch (e) {
+      setSnackbar({ ...snackbar, failed: true });
+    }
+  };
   const [files, setFiles] = useState([]);
   const [address, setAddress] = React.useState({
     city: "",
@@ -62,7 +86,7 @@ export default function AddProperty() {
     setFiles([...files, ...newFiles]);
   };
 
-  const handleDelete = (deleted) => {
+  const handleFileDelete = (deleted) => {
     setFiles(files.filter((f) => f !== deleted));
   };
 
@@ -193,10 +217,12 @@ export default function AddProperty() {
             maxFileSize={500000}
             onAdd={handleAdd}
             filesLimit={20}
-            onDelete={handleDelete}
+            onDelete={handleFileDelete}
           />
         </Grid>
       </Grid>
+      <Button onClick={handleCreate}>Add</Button>
+      <Snackbar snackbar={snackbar} setSnackbar={setSnackbar} />
     </Grid>
   );
 }

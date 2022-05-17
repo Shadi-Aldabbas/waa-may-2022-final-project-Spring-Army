@@ -21,97 +21,7 @@ const PropertiesData = [
       email: "saldabbas@miu.edu",
     },
     propertyType: "Apartment",
-  },
-  {
-    id: "2",
-    address: {
-      city: "Fairfield",
-      state: "Iowa",
-      zipCode: 52557,
-      street: "1000 N St.",
-    },
-    rentAmount: 20000,
-    numberOfBedrooms: 2,
-    numberOfBathrooms: 2,
-    ownedBy: {
-      firstName: "Meresa",
-      lastname: "Yilmaz",
-      email: "saldabbas@miu.edu",
-    },
-    propertyType: "Apartment",
-  },
-  {
-    id: "3",
-    address: {
-      city: "Fairfield",
-      state: "Iowa",
-      zipCode: 52557,
-      street: "1000 N St.",
-    },
-    rentAmount: 2000000,
-    numberOfBedrooms: 2,
-    numberOfBathrooms: 2,
-    ownedBy: {
-      firstName: "Meresa",
-      lastname: "Yilmaz",
-      email: "saldabbas@miu.edu",
-    },
-    propertyType: "Apartment",
-  },
-  {
-    id: "4",
-    address: {
-      city: "Fairfield",
-      state: "Iowa",
-      zipCode: 52557,
-      street: "1000 N St.",
-    },
-    rentAmount: 2000000,
-    numberOfBedrooms: 2,
-    numberOfBathrooms: 2,
-    ownedBy: {
-      firstName: "Meresa",
-      lastname: "Yilmaz",
-      email: "saldabbas@miu.edu",
-    },
-    propertyType: "Apartment",
-  },
-  {
-    id: "5",
-    address: {
-      city: "Fairfield",
-      state: "Iowa",
-      zipCode: 52557,
-      street: "1000 N St.",
-    },
-    rentAmount: 2000,
-    numberOfBedrooms: 2,
-    numberOfBathrooms: 2,
-    ownedBy: {
-      firstName: "Meresa",
-      lastname: "Yilmaz",
-      email: "saldabbas@miu.edu",
-    },
-    propertyType: "Apartment",
-  },
-  {
-    id: "5",
-    address: {
-      city: "Fairfield",
-      state: "Iowa",
-      zipCode: 52557,
-      street: "1000 N St.",
-    },
-    rentAmount: 2000,
-    numberOfBedrooms: 2,
-    numberOfBathrooms: 2,
-    ownedBy: {
-      firstName: "Meresa",
-      lastname: "Yilmaz",
-      email: "saldabbas@miu.edu",
-    },
-    propertyType: "Apartment",
-  },
+  }
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -122,12 +32,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Properties() {
   const classes = useStyles();
-  const [campaigns, setCampaigns] = useState([]);
+  const [properties, setProperties] = useState([]);
 
-  useEffect(async () => {
-    const campaignsData = await getAllProperties();
-    setCampaigns(campaignsData);
-    // console.log(campaigns);
+
+
+  useEffect(() => {
+    const fetch = async () =>{
+      const propertiesData = await getAllProperties();
+      setProperties(propertiesData.data);
+      console.log(properties);
+    }
+    fetch();
   }, []);
   return (
     <>
@@ -139,7 +54,7 @@ export default function Properties() {
         spacing={{ xs: 12, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {PropertiesData.map((item) => {
+        {properties?.map((item) => {
           return (
             <Grid item xs={3}>
               <Property data={item}></Property>
