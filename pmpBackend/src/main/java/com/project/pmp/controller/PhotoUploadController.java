@@ -10,6 +10,7 @@ import javax.annotation.security.RolesAllowed;
 
 @RestController
 @RequestMapping("/api/v1/file-uploads")
+@CrossOrigin
 public class PhotoUploadController {
 
 
