@@ -68,6 +68,12 @@
 			<artifactId>stripe-java</artifactId>
 			<version>20.117.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-admin-client</artifactId>
+			<version>18.0.0</version>
+		</dependency>
 <!--		&lt;!&ndash;Oauth2.0&ndash;&gt;-->
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.boot</groupId>-->

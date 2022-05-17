@@ -25,7 +25,7 @@ public class NotificationController {
     public String producer(@RequestParam("userName") String userName, @RequestParam("userId") String userId) {
 
         User usr=new User();
-        usr.setId(Integer.parseInt(userId));
+        usr.setId(userId);
         usr.setFirstName(userName);
        // rabbitMQSender.send(usr);
        // rabbitMQSender.send();

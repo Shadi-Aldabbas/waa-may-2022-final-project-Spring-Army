@@ -25,18 +25,18 @@ public class UserController {
     private SmsService smsService;
 
     @PostMapping
-    public GenericResponse save(@RequestBody User p) {
+    public GenericResponse save(@RequestBody UserDto p) {
         p.setActive(true);
          var user = userService.save(p);
 
-         if(user.getId() > 0){
-           return  new GenericResponse("successfuly registered", 200, user);
-         }
+//         if(user.getId() > 0){
+//           return  new GenericResponse("successfuly registered", 200, user);
+//         }
 
          return  new GenericResponse("user has failed to register", 500, null);
     }
     @DeleteMapping
-    public void deleteById(@RequestParam int p) {
+    public void deleteById(@RequestParam String p) {
         userService.delete(p);
     }
     @GetMapping
@@ -53,7 +53,7 @@ public class UserController {
         return ResponseEntity.ok(new GenericResponse(result.size()+" User Found", 200,result));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<GenericResponse> getById(@PathVariable int id) {
+    public ResponseEntity<GenericResponse> getById(@PathVariable String id) {
         GenericResponse result = new GenericResponse("success", 200, userService.getById(id));
         return ResponseEntity.ok(result);
     }
@@ -65,9 +65,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public GenericResponse update(@PathVariable int id, @RequestBody UserDto userDto){
+    public GenericResponse update(@PathVariable String id, @RequestBody UserDto userDto){
         var user = userService.update(id, userDto);
-        if(user.getId()>0){
+        if(user != null){
             return new GenericResponse("success", 200,user );
         }
         else{

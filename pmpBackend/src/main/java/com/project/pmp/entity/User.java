@@ -10,9 +10,9 @@ import java.util.UUID;
 @Data
 @Table(name = "Users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+     @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
 
     private String email;
     private String phone;
@@ -20,7 +20,7 @@ public class User {
     private  String lastname;
     private  String password;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private  Role role;
 
     private Date lastLoggedInAt;
