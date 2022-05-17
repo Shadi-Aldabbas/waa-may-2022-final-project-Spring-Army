@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/properties")
+@CrossOrigin
 public class PropertyController {
 
     @Autowired
