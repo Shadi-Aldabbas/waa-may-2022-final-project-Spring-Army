@@ -1,12 +1,9 @@
 package com.project.pmp.service.impl;
 
+import com.project.pmp.dto.LineChartDataDto;
 import com.project.pmp.dto.RentDto;
-import com.project.pmp.dto.UserDto;
-import com.project.pmp.entity.Address;
 import com.project.pmp.entity.Rent;
-import com.project.pmp.repository.AddressRepository;
 import com.project.pmp.repository.RentRepository;
-import com.project.pmp.service.AddressService;
 import com.project.pmp.service.RentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +50,20 @@ public class RentServiceImpl implements RentService {
         rentRepository.findAll().forEach(item -> {
             RentDto rent = modelMapper.map(item, RentDto.class);
             result.add(rent);
+        });
+
+        return result;
+    }
+
+    @Override
+    public List<LineChartDataDto> findByStartDateAfter() {
+        var result= new ArrayList<LineChartDataDto>();
+        System.out.println(rentRepository.findByIdIsNotNullAndStartDateBefore());
+        rentRepository.findByIdIsNotNullAndStartDateBefore().forEach(item -> {
+            var dto = new LineChartDataDto();
+            dto.setUv(item.getUv());
+            dto.setStartDate(item.getStartDate());
+            result.add(dto);
         });
 
         return result;

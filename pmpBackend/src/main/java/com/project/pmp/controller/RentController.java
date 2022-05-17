@@ -51,4 +51,12 @@ public class RentController {
         var result = rentService.getAll();
         return ResponseEntity.ok(new GenericResponse(result.size()+" rent progress found!", 200,result));
     }
+
+    @GetMapping("/weekhistory")
+    public ResponseEntity<GenericResponse> getThisWeekRentedProperty() {
+        var result = rentService.findByStartDateAfter();
+        System.out.println(result);
+        result.forEach(System.out::println);
+        return ResponseEntity.ok(new GenericResponse(result.size()+" rent progress found!", 200,result));
+    }
 }

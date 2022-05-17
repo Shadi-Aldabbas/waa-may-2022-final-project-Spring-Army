@@ -1,12 +1,10 @@
 const apiRoot = "http://localhost:8080/api/v1/";
 
 export const apiLink = {
-    last10properties: apiRoot+'properties/top10',
+    last10properties: `${apiRoot}properties/top10`,
     getUserById: (id) => {
         return apiRoot+'users/1' + id;
     },
-    
-  
     token: 'Token/',
 };
 

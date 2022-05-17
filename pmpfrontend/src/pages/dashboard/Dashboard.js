@@ -6,7 +6,8 @@ import DefaultLineChart from "../charts/DefaultLineChart";
 import MUIDataTable from "mui-datatables";
 import { apiLink } from "../../utils/ApiOpereations";
 import axiosInstance from "../../utils/interceptor";
-import { totalIncomePerLocation } from "./service.dashboard";
+import { totalIncomePerLocation, totalRentedPropertiesPerDayForWeek } from "./service.dashboard";
+import moment from "moment";
 
 const DonutChartData = [
   { name: "Desktop", value: 400, color: "#037971" },
@@ -28,7 +29,7 @@ const COLORS = [
   "#EFABCD",
 ];
 
-const LineChartData = [
+const LineChartDataDemo = [
   {
     name: "Page A",
     uv: 4000,
@@ -62,6 +63,7 @@ const series = [{ key: "uv", color: "#8884D8" }];
 
 export default function Dashboard(props) {
   const [donutChartData, setDonutChartData] = useState("");
+  const [lineChartData, setLineChartData] = useState("");
 
   useEffect(() => {
     const getData = async () => {
@@ -81,6 +83,23 @@ export default function Dashboard(props) {
     console.log("donutChartData", donutChartData);
   }, []);
 
+  useEffect(() => {
+    const getData = async () => {
+      const incomePerLocationData = await totalRentedPropertiesPerDayForWeek();
+     
+      const data = [];
+      incomePerLocationData?.data?.forEach((item, index) => {
+        data.push({
+          uv: `${item.uv}`,
+          name: moment(item.startDate).format("dddd") ,
+        });
+      });
+      setLineChartData(data);
+    };
+    getData();
+    console.log("lineChartData", lineChartData);
+  }, []);
+
   return (
     <Grid container justifyContent="space-between" alignItems="baseline">
       <Grid item xs={12}>
@@ -89,7 +108,7 @@ export default function Dashboard(props) {
             <Grid item xs={12}>
               <div style={{ width: "100%", height: 300 }}>
                 <DefaultLineChart
-                  data={LineChartData}
+                  data={lineChartData? lineChartData : LineChartDataDemo}
                   dataKey="name"
                   series={series}
                   margin={{
