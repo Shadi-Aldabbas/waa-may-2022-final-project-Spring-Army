@@ -1,24 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import Property from "../../components/Property/property";
-
+import { getAllProperties } from "./service.property";
 const PropertiesData = [
   {
     id: "1",
     address: {
       city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
+      state: "Iowa",
+      zipCode: 52557,
+      street: "1000 N St.",
     },
     rentAmount: 200000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
+    numberOfBedrooms: 2,
+    numberOfBathrooms: 2,
+    ownedBy: {
+      firstName: "Meresa",
+      lastname: "Yilmaz",
+      email: "saldabbas@miu.edu",
     },
     propertyType: "Apartment",
   },
@@ -26,17 +26,17 @@ const PropertiesData = [
     id: "2",
     address: {
       city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
+      state: "Iowa",
+      zipCode: 52557,
+      street: "1000 N St.",
     },
     rentAmount: 20000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
+    numberOfBedrooms: 2,
+    numberOfBathrooms: 2,
+    ownedBy: {
+      firstName: "Meresa",
+      lastname: "Yilmaz",
+      email: "saldabbas@miu.edu",
     },
     propertyType: "Apartment",
   },
@@ -44,17 +44,17 @@ const PropertiesData = [
     id: "3",
     address: {
       city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
+      state: "Iowa",
+      zipCode: 52557,
+      street: "1000 N St.",
     },
     rentAmount: 2000000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
+    numberOfBedrooms: 2,
+    numberOfBathrooms: 2,
+    ownedBy: {
+      firstName: "Meresa",
+      lastname: "Yilmaz",
+      email: "saldabbas@miu.edu",
     },
     propertyType: "Apartment",
   },
@@ -62,17 +62,17 @@ const PropertiesData = [
     id: "4",
     address: {
       city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
+      state: "Iowa",
+      zipCode: 52557,
+      street: "1000 N St.",
     },
     rentAmount: 2000000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
+    numberOfBedrooms: 2,
+    numberOfBathrooms: 2,
+    ownedBy: {
+      firstName: "Meresa",
+      lastname: "Yilmaz",
+      email: "saldabbas@miu.edu",
     },
     propertyType: "Apartment",
   },
@@ -80,17 +80,17 @@ const PropertiesData = [
     id: "5",
     address: {
       city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
+      state: "Iowa",
+      zipCode: 52557,
+      street: "1000 N St.",
     },
     rentAmount: 2000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
+    numberOfBedrooms: 2,
+    numberOfBathrooms: 2,
+    ownedBy: {
+      firstName: "Meresa",
+      lastname: "Yilmaz",
+      email: "saldabbas@miu.edu",
     },
     propertyType: "Apartment",
   },
@@ -98,92 +98,20 @@ const PropertiesData = [
     id: "5",
     address: {
       city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
+      state: "Iowa",
+      zipCode: 52557,
+      street: "1000 N St.",
     },
     rentAmount: 2000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
+    numberOfBedrooms: 2,
+    numberOfBathrooms: 2,
+    ownedBy: {
+      firstName: "Meresa",
+      lastname: "Yilmaz",
+      email: "saldabbas@miu.edu",
     },
     propertyType: "Apartment",
   },
-  {
-    id: "5",
-    address: {
-      city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
-    },
-    rentAmount: 2000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
-    },
-    propertyType: "Apartment",
-  },
-  {
-    id: "5",
-    address: {
-      city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
-    },
-    rentAmount: 2000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
-    },
-    propertyType: "Apartment",
-  },
-  {
-    id: "5",
-    address: {
-      city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
-    },
-    rentAmount: 2000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
-    },
-    propertyType: "Apartment",
-  },
-  {
-    id: "5",
-    address: {
-      city: "Fairfield",
-      state:"Iowa",
-      zipCode:52557,
-      street:"1000 N St."
-    },
-    rentAmount: 2000,
-    numberOfBedrooms:2,
-    numberOfBathrooms:2,
-    ownedBy:{
-      firstName:"Meresa",
-      lastname:"Yilmaz",
-      email:"saldabbas@miu.edu"
-    },
-    propertyType: "Apartment",
-  }
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -194,6 +122,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Properties() {
   const classes = useStyles();
+  const [campaigns, setCampaigns] = useState([]);
+
+  useEffect(async () => {
+    const campaignsData = await getAllProperties();
+    setCampaigns(campaignsData);
+    // console.log(campaigns);
+  }, []);
   return (
     <>
       <Grid
