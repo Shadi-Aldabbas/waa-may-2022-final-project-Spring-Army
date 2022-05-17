@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Property({ data }) {
+export default function Property({ data , handleDelete}) {
   const classes = useStyles();
 
   const publishableKey =
@@ -49,17 +49,6 @@ export default function Property({ data }) {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const handleDelete = async () => {
-    try {
-      const addedProperty = await deleteProperty(
-        data.id
-      );
-      // setSnackbar({ ...snackbar, success: true });
-    } catch (e) {
-      // setSnackbar({ ...snackbar, failed: true });
-    }
   };
 
   return (
@@ -103,7 +92,7 @@ export default function Property({ data }) {
               variant="contained"
               color="secondary"
               startIcon={<DeleteIcon />}
-              onClick={handleDelete}
+              onClick={() => handleDelete(data)}
             >
               Delete
             </Button>

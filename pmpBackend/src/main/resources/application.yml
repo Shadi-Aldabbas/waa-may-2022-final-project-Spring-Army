@@ -43,13 +43,20 @@ server:
 
 keycloak:
   realm: pmp
-  auth-server-url: http://127.0.0.1:8024/auth
+  auth-server-url: http://localhost:8024/auth
   resource: pmpapp
   bearer-only: true
   ssl-required: none
   use-resource-role-mappings: true
   credentials:
-    secret: os3bY12bBi4xzrV5rI5SRHrEXaxvlLcg
+    secret: X0XOx9tngD1jowhxjsfxiMjaRlo8xGOr
+
+amazonProperties:
+  endpointUrl: https://s3.us-east-1.amazonaws.com
+  accessKey: AKIAXCVZWRG63YNWNZFZ
+  secretKey: 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
+  bucketName: pmp-file-upload
+  region: us-east-1
 
 
 

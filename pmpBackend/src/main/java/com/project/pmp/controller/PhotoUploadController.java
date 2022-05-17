@@ -1,5 +1,6 @@
 package com.project.pmp.controller;
 
+import com.project.pmp.security.Constants;
 import com.project.pmp.service.AmazonClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,13 @@ public class PhotoUploadController {
     private AmazonClientService amazonClientService;
 
     @PostMapping
-    @RolesAllowed("LANDLOARD")
+    @RolesAllowed({Constants.ADMIN, Constants.LANDLOARD})
     public String uploadFile(@RequestPart(value = "file") MultipartFile file) {
         return amazonClientService.upload(file);
     }
 
     @DeleteMapping
+    @RolesAllowed({Constants.ADMIN,  Constants.LANDLOARD})
     public String deleteFile(@RequestPart(value = "url") String fileUrl) {
         return this.amazonClientService.delete(fileUrl);
     }

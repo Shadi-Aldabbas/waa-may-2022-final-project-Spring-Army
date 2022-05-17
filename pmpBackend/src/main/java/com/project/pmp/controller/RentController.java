@@ -3,12 +3,15 @@ package com.project.pmp.controller;
 import com.project.pmp.dto.GenericResponse;
 import com.project.pmp.entity.Rent;
 import com.project.pmp.entity.Property;
+import com.project.pmp.security.Constants;
 import com.project.pmp.service.RentService;
 import com.project.pmp.service.SmsService;
 import com.project.pmp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
 
 @RestController
 @RequestMapping("/api/v1/rent")
@@ -23,6 +26,7 @@ public class RentController {
     private SmsService smsService;
 
     @PostMapping
+    @RolesAllowed({Constants.ADMIN, Constants.TENANT, Constants.LANDLOARD})
     public ResponseEntity<GenericResponse> save(@RequestBody Rent p) {
         var rent = rentService.save(p);
         if(rent != null){
@@ -38,6 +42,7 @@ public class RentController {
     }
 
     @DeleteMapping
+    @RolesAllowed({Constants.ADMIN, Constants.LANDLOARD})
     public ResponseEntity<GenericResponse> deleteById(@RequestParam int p) {
         if(rentService.delete(p)){
            return ResponseEntity.ok(new GenericResponse("The field deleted succesfully!",200,null));
@@ -47,6 +52,7 @@ public class RentController {
     }
 
     @GetMapping
+    @RolesAllowed({Constants.ADMIN, Constants.TENANT, Constants.LANDLOARD})
     public ResponseEntity<GenericResponse> getAll() {
         var result = rentService.getAll();
         return ResponseEntity.ok(new GenericResponse(result.size()+" rent progress found!", 200,result));

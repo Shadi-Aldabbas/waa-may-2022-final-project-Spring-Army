@@ -48,15 +48,6 @@ public class NotificationController {
         return "ok. done";
     }
 
-//    private final RabbitTemplate queueSender;
-//    public NotificationController(RabbitTemplate queueSender) {
-//        this.queueSender = queueSender;
-//    }
-//
-//    @GetMapping
-//    public String send() throws JsonProcessingException {
-//        queueSender.convertAndSend("teste-exchange", "routing-key-teste", "test message");
-//        return "ok. done";
-//    }
+
 
 }

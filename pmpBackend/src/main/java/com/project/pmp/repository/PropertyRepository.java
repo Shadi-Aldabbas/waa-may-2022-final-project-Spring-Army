@@ -18,6 +18,10 @@ public interface PropertyRepository extends CrudRepository<Property,Integer> {
     @Query(value="select p.address_id as address, sum(r.price) as income  from rent r , property p where r.property_id = p.id group by p.address_id", nativeQuery=true)
     List<IncomeDtoInterface> findTotalincome();
 
+    @Query(value="select p.address_id as address, sum(r.price) as income  from rent r , property p where (r.property_id = p.id and r.owner_Id = "+":id"+") group by p.address_id", nativeQuery=true)
+    List<IncomeDtoInterface> findTotalincome(String id);
+
+
     @Query(value="select  p.* from property p, rent r where (p.id = r.property_id )and r.end_date between now()  and (now()  + interval '1 month')", nativeQuery=true)
     List<Property> findPropertyByLeaseEndinginMonth();
 

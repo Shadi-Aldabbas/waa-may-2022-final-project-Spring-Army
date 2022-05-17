@@ -5,6 +5,7 @@ import com.project.pmp.dto.PasswordResetDto;
 import com.project.pmp.dto.PropertyDto;
 import com.project.pmp.dto.UserDto;
 import com.project.pmp.entity.User;
+import com.project.pmp.security.Constants;
 import com.project.pmp.service.SmsService;
 import com.project.pmp.service.UserService;
 import com.telesign.MessagingClient;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,7 @@ public class UserController {
     private SmsService smsService;
 
     @PostMapping
+
     public GenericResponse save(@RequestBody UserDto p) {
         p.setActive(true);
          var user = userService.save(p);
@@ -48,6 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/most10Tenant")
+    @RolesAllowed({Constants.ADMIN})
     public ResponseEntity<GenericResponse> findTop10MostTenant() {
         var result = userService.findTop10MostTenant();
 
@@ -60,12 +64,14 @@ public class UserController {
     }
 
     @GetMapping("/filter")
+    @RolesAllowed({Constants.ADMIN})
     public ResponseEntity<GenericResponse> getLastTenLoggedIn() {
         GenericResponse result = new GenericResponse("success", 200, userService.getLastTenLoggedIn());
         return ResponseEntity.ok(result);
     }
 
     @PutMapping("/{id}")
+    @RolesAllowed({Constants.ADMIN, Constants.TENANT, Constants.LANDLOARD})
     public GenericResponse update(@PathVariable String id, @RequestBody UserDto userDto){
         var user = userService.update(id, userDto);
         if(user != null){

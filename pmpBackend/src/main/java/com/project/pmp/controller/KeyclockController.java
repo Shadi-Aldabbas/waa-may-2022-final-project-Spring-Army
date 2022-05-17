@@ -2,6 +2,7 @@ package com.project.pmp.controller;
 
 import com.project.pmp.dto.GenericResponse;
 import com.project.pmp.dto.UserDto;
+import com.project.pmp.security.Constants;
 import com.project.pmp.service.UserService;
 import com.project.pmp.service.impl.RoleServiceImpl;
 import com.project.pmp.service.impl.UserKeycloakServiceImpl;
@@ -30,10 +31,8 @@ public class KeyclockController {
     private UserService userService;
 
     @GetMapping
+    @RolesAllowed({Constants.ADMIN})
     public ResponseEntity<GenericResponse> getAll() {
-
-
-
         var result = userKeycloakService.getAll();
         return ResponseEntity.ok(new GenericResponse(result.size()+" User Found!",200,result));
     }
@@ -44,7 +43,6 @@ public class KeyclockController {
         if(result.getId() != null ){
             return ResponseEntity.ok(new GenericResponse("User Found!", 200, result));
         }
-
         return  ResponseEntity.badRequest().body(new GenericResponse("User Not Found!", 500, null)) ;
     }
 

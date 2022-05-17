@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import Property from "../../components/Property/property";
-import { getAllProperties } from "./service.property";
+import { deleteProperty, getAllProperties } from "./service.property";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const PropertiesData = [
   {
     id: "1",
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Properties() {
   const classes = useStyles();
   const [properties, setProperties] = useState([]);
+  const [fetchAgain, setFetchAgain] = useState(false);
 
 
 
@@ -43,7 +46,23 @@ export default function Properties() {
       console.log(properties);
     }
     fetch();
-  }, []);
+  }, [fetchAgain]);
+
+  const handleDelete = async (item) => {
+    try {
+      const addedProperty = await deleteProperty(
+        item.id
+      ).then(result =>{
+        
+        toast(result.message)
+        setFetchAgain(!fetchAgain)
+      });
+      // setSnackbar({ ...snackbar, success: true });
+    } catch (e) {
+      // setSnackbar({ ...snackbar, failed: true });
+    }
+  };
+
   return (
     <>
       <Grid
@@ -56,9 +75,12 @@ export default function Properties() {
       >
         {properties?.map((item) => {
           return (
+            <>
+               <ToastContainer position="top-center"/>
             <Grid item xs={3}>
-              <Property data={item}></Property>
+              <Property data={item} handleDelete={handleDelete} ></Property>
             </Grid>
+            </>
           );
         })}
       </Grid>

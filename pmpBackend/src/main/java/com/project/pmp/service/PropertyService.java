@@ -11,7 +11,7 @@ import java.util.List;
 public interface PropertyService {
     PropertyDto save(Property p);
 
-    void delete(int id);
+    boolean delete(int id);
 
     PropertyDto getById(int id);
 
@@ -21,6 +21,7 @@ public interface PropertyService {
     PropertyDto update(int id, PropertyDto propertyDto);
 
     List<IncomeDtoInterface> findTotalincome();
+    List<IncomeDtoInterface> findTotalincome(String id);
     List<PropertyDto> findPropertyByLeaseEndinginMonth();
 
 }

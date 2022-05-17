@@ -29,8 +29,15 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public void delete(int id) {
-        propertyRepository.deleteById(id);
+    public boolean delete(int id) {
+        var result = propertyRepository.findById(id);
+        if(result.isPresent()){
+            result.get().setDeleted(true);
+            propertyRepository.save(result.get());
+            return true;
+        }
+        return false;
+
     }
 
     @Override
@@ -44,7 +51,10 @@ public class PropertyServiceImpl implements PropertyService {
         var result= new ArrayList<PropertyDto>();
         propertyRepository.findAll().forEach(item -> {
             PropertyDto property = modelMapper.map(item, PropertyDto.class);
-            result.add(property);
+            if(!item.isDeleted()){
+                result.add(property);
+            }
+
         });
 
         return result;
@@ -84,6 +94,17 @@ public class PropertyServiceImpl implements PropertyService {
     public List<IncomeDtoInterface> findTotalincome() {
         var result= new ArrayList<IncomeDtoInterface>();
         propertyRepository.findTotalincome().forEach(item -> {
+            IncomeDtoInterface income = modelMapper.map(item, IncomeDtoInterface.class);
+            result.add(income);
+        });
+        return result;
+    }
+
+    @Override
+    public List<IncomeDtoInterface> findTotalincome(String id) {
+        var result= new ArrayList<IncomeDtoInterface>();
+        System.out.println(id);
+        propertyRepository.findTotalincome(id).forEach(item -> {
             IncomeDtoInterface income = modelMapper.map(item, IncomeDtoInterface.class);
             result.add(income);
         });
