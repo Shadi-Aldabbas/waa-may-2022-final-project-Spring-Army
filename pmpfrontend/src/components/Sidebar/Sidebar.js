@@ -56,7 +56,10 @@ const structure = [
   },
   { id: 5, type: "divider" },
   { id: 6, type: "title", label: "HELP" },
-  { id: 2, label: "Property", link: "/app/properties", icon: <TableIcon /> },
+  { id: 2, label: "Property", link: "/app/properties", icon: <TableIcon /> ,  children: [
+    { label: "View", link: "/app/properties/view" },
+    { label: "Add", link: "/app/properties/add" },
+  ],},
   { id: 7, label: "Library", link: "https://flatlogic.com/templates", icon: <LibraryIcon /> },
   { id: 8, label: "Support", link: "https://flatlogic.com/forum", icon: <SupportIcon /> },
   { id: 9, label: "FAQ", link: "https://flatlogic.com/forum", icon: <FAQIcon /> },

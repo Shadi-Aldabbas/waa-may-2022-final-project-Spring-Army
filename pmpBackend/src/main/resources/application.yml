@@ -54,12 +54,6 @@ keycloak:
 
 
 
-amazonProperties:
-  endpointUrl: https://s3.us-east-1.amazonaws.com
-  accessKey: AKIAXCVZWRG63YNWNZFZ
-  secretKey: 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
-  bucketName: pmp-file-upload
-  region: us-east-1
 
 
 

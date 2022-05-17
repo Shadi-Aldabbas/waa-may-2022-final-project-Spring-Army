@@ -28,6 +28,7 @@ import Dashboard from "../../pages/dashboard";
 import Typography from "../../pages/typography";
 import Notifications from "../../pages/notifications";
 import Properties from "../../pages/Properties/Properties";
+import AddProperty from "../../pages/Properties/AddProperty";
 import Maps from "../../pages/maps";
 import Tables from "../../pages/tables";
 import Icons from "../../pages/icons";
@@ -58,7 +59,8 @@ function Layout(props) {
               <Route path="/app/typography" component={Typography} />
               <Route path="/app/tables" component={Tables} />
               <Route path="/app/notifications" component={Notifications} />
-              <Route path="/app/properties" component={Properties} />
+              <Route path="/app/properties/add" component={AddProperty} />
+              <Route path="/app/properties/View" component={Properties} />
               <Route
                 exact
                 path="/app/ui"

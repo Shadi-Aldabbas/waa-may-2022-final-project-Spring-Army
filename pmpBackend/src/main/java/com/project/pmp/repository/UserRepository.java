@@ -11,9 +11,10 @@ import java.sql.Date;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends CrudRepository<User,Integer> {
+public interface UserRepository extends CrudRepository<User,String> {
 
     List<User> findTop10ByIdIsNotNullOrderByLastLoggedInAtDesc();
+    User findByEmail(String email);
     @Query(value="select  u.* from users u, rent r where u.id = r.tenant_id and  u.role_id =2 order by r.start_date  desc LIMIT 10", nativeQuery=true)
     List<User> findTop10MostTenant();
 
