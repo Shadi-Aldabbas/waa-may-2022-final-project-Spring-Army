@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Paper,Typography } from "@material-ui/core";
+import { Grid, Paper,Typography,Button } from "@material-ui/core";
 import Widget from "../../components/Widget/Widget";
 import DefaultDonutChart from "../charts/DefaultDonutChart";
 import DefaultLineChart from "../charts/DefaultLineChart";
 import MUIDataTable from "mui-datatables";
 import { apiLink } from "../../utils/ApiOpereations";
-import axios from "axios";
 import axiosInstance from "../../utils/interceptor";
 
 const DonutChartData = [
@@ -50,6 +49,9 @@ const LineChartData = [
 ];
 const series = [{ key: "uv", color: "#8884D8" }];
 
+
+
+
 const datatableData = [
   ["Joe James", "Example Inc.", "Yonkers", "NY"],
   ["John Walsh", "Example Inc.", "Hartford", "CT"],
@@ -72,25 +74,32 @@ const datatableData = [
 
 export default function Dashboard(props) {
 
-  useEffect(async() => {   
-   
-   
-    await fetchLast10();
 
+ const [last10Prop, setLast10Prop] = useState([]);
+ const [test, setTest] = useState("asd");
 
+  useEffect(() => {   
+    axiosInstance.get(apiLink.last10properties)
+    .then(response => {
+      setLast10Prop(response.data.data)
+      let res = response.data.data;
+      console.log("first",res.deleted)
+      setTest(res);
+
+    let result = [];
+    res.forEach(element => {
+      console.log(element)
+    });
+
+    
+     
+    })
+    .catch(err => console.log(err));
   }, []);
 
-  const fetchLast10 = async ()=>{
-
-    axiosInstance.get(apiLink.last10properties)
-    .then(response => console.log(response))
-    .catch(err => console.log(err));
-    
-
-  }
-
   return (
-    <Grid container justifyContent="space-between" alignItems="baseline">
+    <Grid  container justifyContent="space-between" alignItems="baseline">
+      {console.log("somehow test", test)}
       <Grid item xs={12}>
       <Widget title="Line Chart" upperTitle>
         <Grid container direction="column" justifyContent="center">
@@ -139,6 +148,25 @@ export default function Dashboard(props) {
     <Grid item xs={6}>
           <MUIDataTable
             title="Employee List"
+            data={test.map(item => {
+              return [
+                  item.name,
+                  item.numberOfBathrooms,
+                  item.numberOfBedrooms,
+              ]
+          })}
+            columns={["Name", "numberOfBathrooms", "numberOfBedrooms"]}
+            options={{
+              rowsPerPageOptions:[],
+              elevation:0,
+              rowsPerPage:6,
+              download:false,
+            }}
+          />
+    </Grid>
+    {/* <Grid item xs={6}>
+          <MUIDataTable
+            title="Employee List"
             data={datatableData}
             columns={["Name", "Company", "City", "State"]}
             options={{
@@ -148,7 +176,7 @@ export default function Dashboard(props) {
               download:false,
             }}
           />
-    </Grid>
+    </Grid> */}
     
   </Grid>
   );

@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/v1/keycloack-users",consumes = "*/*")
+@CrossOrigin
 public class KeyclockController {
 
     @Autowired

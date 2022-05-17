@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/rent")
-
+@CrossOrigin
 public class RentController {
 
     @Autowired
