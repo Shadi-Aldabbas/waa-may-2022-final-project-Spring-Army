@@ -38,7 +38,7 @@ public class RabbitMQSender {
     public void send(Notification n) {
         n.setRead(false);
         User u = new User();
-        u.setId(28);
+       // u.setId(28);
         u.setFirstName("Hasim");
         n.setUser(u);
         notificationRepository.save(n);
