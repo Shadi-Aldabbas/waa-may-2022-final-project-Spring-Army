@@ -18,6 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/v1/keycloack-users",consumes = "*/*")
+@CrossOrigin
 public class KeyclockController {
 
     @Autowired
