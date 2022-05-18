@@ -44,13 +44,13 @@ export default function Users() {
     const fetch = async () =>{
       const userData = await getAllUsers();
       setUsers(userData.data);
-      console.log(userData);
+      // console.log(userData);
     }
     fetch();
   }, []);
 
   const handleDelete = async (item) => {
-    console.log(item)
+    // console.log(item)
     // try {
     //   const deleteUser = await deleteProperty(
     //     item.id
@@ -94,7 +94,7 @@ export default function Users() {
           ]}
           options={{
             onRowsDelete:(item)=>{
-              console.log(this)
+              // console.log(this)
               handleDelete(item)
             },
             rowsPerPageOptions: [],

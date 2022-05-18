@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
-import Keycloak from 'keycloak-js'
+import Keycloak from "keycloak-js";
+import { UserContext } from "../ourUserContext";
 
 // components
 import Layout from "./Layout";
@@ -13,27 +14,49 @@ import Login from "../pages/login";
 import { useUserState } from "../context/UserContext";
 
 export default function App() {
-
- 
   // global
   // var { isAuthenticated } = useUserState();
-  const [mystate, setMystate] = useState({ keycloak: null, isAuthenticated: true });
-  const [user, setUser] = useState({
-    name: ""
+  const [mystate, setMystate] = useState({
+    keycloak: null,
+    isAuthenticated: true,
   });
+  const [user, setUser] = useState({
+    name: "",
+  });
+
+  const { setUserData } = useContext(UserContext);
   useEffect(() => {
     const keycloak = Keycloak("/keycloak.json");
-    keycloak.init({ onLoad: "login-required", checkLoginIframe: false, promiseType: 'native'}).then(authenticated => {
-      setMystate({ keycloak: keycloak, isAuthenticated: authenticated })
-      console.log(authenticated);
-      if (mystate.isAuthenticated) {
-        console.log("TOKENNNNNNN-----------",keycloak.token)
-        localStorage.setItem('auth-token', keycloak.token)
-      }
+    keycloak
+      .init({
+        onLoad: "login-required",
+        checkLoginIframe: false,
+        promiseType: "native",
+      })
+      .then((authenticated) => {
+        setMystate({ keycloak: keycloak, isAuthenticated: authenticated });
+        if (mystate.isAuthenticated) {
+          console.log(keycloak);
+          localStorage.setItem("auth-token", keycloak.token);
+          setUserData({
+            name:keycloak.idTokenParsed.preferred_username,
+            roles:keycloak.realmAccess.roles,
+            token:keycloak.token,
+            refreshToken:keycloak.refreshToken,
+            logout: () => {
 
-    });
+              // keycloak.authenticated(false);
+              keycloak.logout();
+              return keycloak.createLogoutUrl();
+            }
+          })
+        }
+      });
+
+
   }, []);
   return (
+
     <BrowserRouter>
       <Switch>
         <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
@@ -53,7 +76,7 @@ export default function App() {
     return (
       <Route
         {...rest}
-        render={props =>
+        render={(props) =>
           mystate.isAuthenticated ? (
             React.createElement(component, props)
           ) : (
@@ -75,7 +98,7 @@ export default function App() {
     return (
       <Route
         {...rest}
-        render={props =>
+        render={(props) =>
           mystate.isAuthenticated ? (
             <Redirect
               to={{

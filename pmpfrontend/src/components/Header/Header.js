@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -8,6 +8,8 @@ import {
   MenuItem,
   Fab,
 } from "@material-ui/core";
+import { UserContext } from "../../ourUserContext";
+
 import {
   Menu as MenuIcon,
   MailOutline as MailIcon,
@@ -103,6 +105,8 @@ export default function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
+  const { userData } = useContext(UserContext);
+
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -287,7 +291,7 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              John Smith
+            {userData.name}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
@@ -295,7 +299,7 @@ export default function Header(props) {
               color="primary"
               href="https://flatlogic.com"
             >
-              Flalogic.com
+              Role: {userData.roles}
             </Typography>
           </div>
           <MenuItem
@@ -327,7 +331,9 @@ export default function Header(props) {
               className={classes.profileMenuLink}
               color="primary"
               onClick={() => {
-                
+                console.log(userData.logout());
+                // localStorage.clear();
+                // window.location.href = '/';
                 //window.location.assign("http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/logout?id_token_hint=" + tok + "&post_logout_redirect_uri=" + this.redirectUri);
                 //signOut(userDispatch, props.history)
               } }

@@ -30,10 +30,10 @@ public class Property {
     private boolean isDeleted;
     private boolean isActive;
 
-//    @ElementCollection // 1
-//    @CollectionTable(name = "photos", joinColumns = @JoinColumn(name = "photoId")) // 2
-//    @Column(name = "photo") // 3
-//    private List<String> photos;
+    @ElementCollection // 1
+    @CollectionTable(name = "photos", joinColumns = @JoinColumn(name = "photoId")) // 2
+    @Column(name = "photo") // 3
+    private List<String> photos;
 
 //    @OneToOne
 //    @JoinColumn(name = "last_rented_by")

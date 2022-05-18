@@ -6,7 +6,7 @@ axiosInstance.interceptors.request.use(
     config => {
         const token = localStorage.getItem('auth-token');
         config.headers['Authorization'] = 'Bearer ' + token;
-        console.log("Auth", token);
+        // console.log("Auth", token);
         return config;
     }, error => {
         Promise.reject(error)

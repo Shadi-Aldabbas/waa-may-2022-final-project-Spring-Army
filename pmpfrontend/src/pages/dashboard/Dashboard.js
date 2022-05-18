@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Grid, Paper, Typography, Button } from "@material-ui/core";
 import Widget from "../../components/Widget/Widget";
 import DefaultDonutChart from "../charts/DefaultDonutChart";
 import DefaultLineChart from "../charts/DefaultLineChart";
 import MUIDataTable from "mui-datatables";
-import { apiLink } from "../../utils/ApiOpereations";
-import axiosInstance from "../../utils/interceptor";
+import { UserContext } from "../../ourUserContext";
 import {
   totalIncomePerLocation,
   totalRentedPropertiesPerDayForWeek,
   getLast10PrpertiesRented,
+  getAllPropertiesForLandlord,
 } from "./service.dashboard";
 import moment from "moment";
 
@@ -66,17 +66,37 @@ const LineChartDataDemo = [
 const series = [{ key: "uv", color: "#8884D8" }];
 
 export default function Dashboard(props) {
+  const { userData } = useContext(UserContext);
   const [donutChartData, setDonutChartData] = useState("");
   const [lineChartData, setLineChartData] = useState("");
-  const [last10PropertiesRented, setLast10PropertiesRented] = useState("");
+  const [propertiesTableData, setPropertiesTableData] = useState("");
+  const [userRole, setUSerRole] = useState(
+    userData.roles.includes("admin")
+      ? "admin"
+      : userData.roles.includes("landlord")
+      ? "landlord"
+      : "tenant",
+  );
 
   useEffect(() => {
     const getData = async () => {
-      const incomePerLocationData = await totalIncomePerLocation();
-      const lineDate = await totalRentedPropertiesPerDayForWeek();
+      if (userRole === "admin") {
       const last10Properties = await getLast10PrpertiesRented();
+        setPropertiesTableData(last10Properties.data);
+      } else {
+      const landlordProperties = await getAllPropertiesForLandlord();
+        setPropertiesTableData(landlordProperties.data);
+      }
+    };
+    getData();
+  }, [ userRole]);
 
-      let data = [];
+  useEffect(() => {
+    const getData = async () => {
+      if (userRole === "admin"){
+      const incomePerLocationData = await totalIncomePerLocation();
+
+      const data = [];
 
       incomePerLocationData?.data?.forEach((item, index) => {
         data.push({
@@ -86,9 +106,17 @@ export default function Dashboard(props) {
         });
       });
       setDonutChartData(data);
+    };
+  }
+    getData();
+  }, [userRole]);
 
+  useEffect(() => {
+    const getData = async () => {
+      if (userRole === "admin"){
+      const lineDate = await totalRentedPropertiesPerDayForWeek();
 
-      data = [];
+      const data = [];
       lineDate?.data?.forEach((item, index) => {
         data.push({
           uv: `${item.uv}`,
@@ -96,13 +124,17 @@ export default function Dashboard(props) {
         });
       });
       setLineChartData(data);
-      setLast10PropertiesRented(last10Properties.data);
     };
+  }
     getData();
-  }, []);
+  }, [userRole]);
+
+
+
 
   return (
     <Grid container justifyContent="space-between" alignItems="baseline">
+      {userData.roles.includes("admin") && lineChartData ?
       <Grid item xs={12}>
         <Widget title="Properties rented this week" upperTitle>
           <Grid container direction="column" justifyContent="center">
@@ -124,6 +156,7 @@ export default function Dashboard(props) {
           </Grid>
         </Widget>
       </Grid>
+      : ''}
       <Grid item xs={6}>
         <Widget title="Total Income By Address" upperTitle>
           <Grid
@@ -149,11 +182,19 @@ export default function Dashboard(props) {
         </Widget>
       </Grid>
       <Grid item xs={6}>
+        {console.log(propertiesTableData)}
+        {console.log(propertiesTableData)}
         <MUIDataTable
-          title="Last 10 logged in Users"
+          title={
+            userRole === "admin"
+              ? "last 10 properties rented"
+              : userRole === "landlord"
+              ? "Your Properties"
+              : "tenant role should not see this"
+          }
           data={
-            last10PropertiesRented
-              ? last10PropertiesRented.map((item) => {
+            propertiesTableData
+              ? propertiesTableData.map((item) => {
                   return [
                     item.ownedBy.firstName + " " + item.ownedBy.lastname,
                     item.numberOfBedrooms,
@@ -162,7 +203,7 @@ export default function Dashboard(props) {
                     item.securityDepositAmount,
                   ];
                 })
-              : ["1","1","1","1","1"]
+              : ["1", "1", "1", "1", "1"]
           }
           columns={[
             "Owner Name",

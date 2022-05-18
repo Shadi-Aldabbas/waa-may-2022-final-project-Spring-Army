@@ -10,7 +10,7 @@ import {
 import { Snackbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { DropzoneAreaBase } from "material-ui-dropzone";
-import { addProperty } from "./service.property";
+import { addProperty, addFilesForProperty } from "./service.property";
 
 const useStyles = makeStyles((theme) => ({
   tableOverflow: {
@@ -47,30 +47,40 @@ export default function AddProperty() {
   });
 
   const handleCreate = async () => {
-    console.log({...property,"address":{...address}});
+    const listOfPaths = await addFilesForProperty(files);
     try {
-      const addedProperty = await addProperty(
-        property,
-        address,
-      );
+      // console.log(listOfPaths);
+      // const addedProperty = await addProperty(
+      //   property,
+      //   address,
+      //   user,
+      //   listOfPaths
+      // );
       setSnackbar({ ...snackbar, success: true });
     } catch (e) {
       setSnackbar({ ...snackbar, failed: true });
     }
   };
   const [files, setFiles] = useState([]);
-  const [address, setAddress] = React.useState({
+  const [address, setAddress] = useState({
     city: "",
     state: "",
     zipCode: "",
     street: "",
   });
-  const [property, setProperty] = React.useState({
+  const [property, setProperty] = useState({
     numberOfBedrooms: "",
     numberOfBathrooms: "",
     rentAmount: "",
     securityDepositAmount: "",
     propertyType: false,
+  });
+  const [user, setUser] = useState({
+     id: "3adedaeb-3357-4313-a16e-95cf6b2b0f0b",
+     email: "meresa27@gmail.com",
+     phone: "1234567890",
+     firstName: "Meresa",
+     lastname: "Gebrewahd",
   });
   const handlePropertyChange = (prop) => (event) => {
     setProperty({ ...property, [prop]: event.target.value });
@@ -79,11 +89,14 @@ export default function AddProperty() {
   const handleAddressChange = (prop) => (event) => {
     setAddress({ ...address, [prop]: event.target.value });
   };
-  const handleAdd = (newFiles) => {
-    newFiles = newFiles.filter(
-      (file) => !files.find((f) => f.data === file.data),
-    );
-    setFiles([...files, ...newFiles]);
+  const handleAdd = async (newFiles) => {
+    const path = await addFilesForProperty(newFiles);
+    // console.log(path);
+
+    // newFiles = newFiles.filter(
+    //   (file) => !files.find((f) => f.data === file.data),
+    // );
+    // setFiles([...files, path]);
   };
 
   const handleFileDelete = (deleted) => {
@@ -214,7 +227,7 @@ export default function AddProperty() {
           <DropzoneAreaBase
             acceptedFiles={["image/*", "video/*", "application/*"]}
             fileObjects={files}
-            maxFileSize={500000}
+            maxFileSize={50000000}
             onAdd={handleAdd}
             filesLimit={20}
             onDelete={handleFileDelete}
