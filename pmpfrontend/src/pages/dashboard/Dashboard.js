@@ -6,7 +6,11 @@ import DefaultLineChart from "../charts/DefaultLineChart";
 import MUIDataTable from "mui-datatables";
 import { apiLink } from "../../utils/ApiOpereations";
 import axiosInstance from "../../utils/interceptor";
-import { totalIncomePerLocation, totalRentedPropertiesPerDayForWeek } from "./service.dashboard";
+import {
+  totalIncomePerLocation,
+  totalRentedPropertiesPerDayForWeek,
+  getLast10PrpertiesRented,
+} from "./service.dashboard";
 import moment from "moment";
 
 const DonutChartData = [
@@ -64,40 +68,37 @@ const series = [{ key: "uv", color: "#8884D8" }];
 export default function Dashboard(props) {
   const [donutChartData, setDonutChartData] = useState("");
   const [lineChartData, setLineChartData] = useState("");
+  const [last10PropertiesRented, setLast10PropertiesRented] = useState("");
 
   useEffect(() => {
     const getData = async () => {
       const incomePerLocationData = await totalIncomePerLocation();
-     
-      const data = [];
+      const lineDate = await totalRentedPropertiesPerDayForWeek();
+      const last10Properties = await getLast10PrpertiesRented();
+
+      let data = [];
+
       incomePerLocationData?.data?.forEach((item, index) => {
         data.push({
-          name: `${item.address.zipCode}`,
+          name: `${item.address.city}`,
           value: item.income,
           color: COLORS[index % 7],
         });
       });
       setDonutChartData(data);
-    };
-    getData();
-    console.log("donutChartData", donutChartData);
-  }, []);
 
-  useEffect(() => {
-    const getData = async () => {
-      const incomePerLocationData = await totalRentedPropertiesPerDayForWeek();
-     
-      const data = [];
-      incomePerLocationData?.data?.forEach((item, index) => {
+
+      data = [];
+      lineDate?.data?.forEach((item, index) => {
         data.push({
           uv: `${item.uv}`,
-          name: moment(item.startDate).format("dddd") ,
+          name: moment(item.startDate).format("dddd"),
         });
       });
       setLineChartData(data);
+      setLast10PropertiesRented(last10Properties.data);
     };
     getData();
-    console.log("lineChartData", lineChartData);
   }, []);
 
   return (
@@ -108,7 +109,7 @@ export default function Dashboard(props) {
             <Grid item xs={12}>
               <div style={{ width: "100%", height: 300 }}>
                 <DefaultLineChart
-                  data={lineChartData? lineChartData : LineChartDataDemo}
+                  data={lineChartData ? lineChartData : LineChartDataDemo}
                   dataKey="name"
                   series={series}
                   margin={{
@@ -141,44 +142,43 @@ export default function Dashboard(props) {
                 outerRadius={"90%"}
                 innerRadius={100}
                 cornerRadius={0}
-                data={donutChartData ? donutChartData: DonutChartData }
+                data={donutChartData ? donutChartData : DonutChartData}
               />
             </Grid>
           </Grid>
         </Widget>
       </Grid>
-      {/* <Grid item xs={6}>
-          <MUIDataTable
-            title="Employee List"
-            data={test?.map(item => {
-              return [
-                  item.name,
-                  item.numberOfBathrooms,
-                  item.numberOfBedrooms,
-              ]
-          })}
-            columns={["Name", "numberOfBathrooms", "numberOfBedrooms"]}
-            options={{
-              rowsPerPageOptions:[],
-              elevation:0,
-              rowsPerPage:6,
-              download:false,
-            }}
-          />
-    </Grid> */}
-      {/* <Grid item xs={6}>
-          <MUIDataTable
-            title="Employee List"
-            data={datatableData}
-            columns={["Name", "Company", "City", "State"]}
-            options={{
-              rowsPerPageOptions:[],
-              elevation:0,
-              rowsPerPage:6,
-              download:false,
-            }}
-          />
-    </Grid> */}
+      <Grid item xs={6}>
+        <MUIDataTable
+          title="Employee List"
+          data={
+            last10PropertiesRented
+              ? last10PropertiesRented.map((item) => {
+                  return [
+                    item.ownedBy.firstName + " " + item.ownedBy.lastname,
+                    item.numberOfBedrooms,
+                    item.numberOfBedrooms,
+                    item.rentAmount,
+                    item.securityDepositAmount,
+                  ];
+                })
+              : ["1","1","1","1","1"]
+          }
+          columns={[
+            "Owner Name",
+            "Bathrooms",
+            "Bedrooms",
+            "Rent Price",
+            "Deposit Amount",
+          ]}
+          options={{
+            rowsPerPageOptions: [],
+            elevation: 0,
+            rowsPerPage: 6,
+            download: false,
+          }}
+        />
+      </Grid>
     </Grid>
   );
 }

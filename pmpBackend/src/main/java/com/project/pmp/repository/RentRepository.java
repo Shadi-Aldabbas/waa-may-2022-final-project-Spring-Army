@@ -14,7 +14,7 @@ public interface RentRepository extends CrudRepository<Rent,Integer> {
 
 //    List<Rent>findByIdIsNotNullAndStartDateBefore(Date startDate);
 
-    @Query(value="SELECT count(r.property_id) as uv, r.start_date as startDate from rent r WHERE r.start_date >= NOW() - INTERVAL '7 days' GROUP BY r.property_id, r.start_date", nativeQuery=true)
+    @Query(value="SELECT count(*) as uv, r.start_date as startDate from rent r WHERE r.start_date >= NOW() - INTERVAL '7 days' GROUP BY r.start_date", nativeQuery=true)
     List<LineChartDataInterface> findByIdIsNotNullAndStartDateBefore();
 
 }
