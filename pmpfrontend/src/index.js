@@ -10,14 +10,14 @@ import { LayoutProvider } from "./context/LayoutContext";
 import { UserProvider } from "./context/UserContext";
 
 ReactDOM.render(
-  <LayoutProvider>
-    <UserProvider>
+   <LayoutProvider>
+     <UserProvider>
       <ThemeProvider theme={Themes.default}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
-    </UserProvider>
-  </LayoutProvider>,
+         <CssBaseline />
+        <App />,
+       </ThemeProvider>
+     </UserProvider>
+   </LayoutProvider>,
   document.getElementById("root"),
 );
 

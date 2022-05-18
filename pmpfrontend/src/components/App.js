@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
+import Keycloak from 'keycloak-js'
 
 // components
 import Layout from "./Layout";
@@ -12,9 +13,25 @@ import Login from "../pages/login";
 import { useUserState } from "../context/UserContext";
 
 export default function App() {
-  // global
-  var { isAuthenticated } = useUserState();
 
+ 
+  // global
+  // var { isAuthenticated } = useUserState();
+  const [mystate, setMystate] = useState({ keycloak: null, isAuthenticated: true });
+  const [user, setUser] = useState({
+    name: ""
+  });
+  useEffect(() => {
+    const keycloak = Keycloak("/keycloak.json");
+    keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then(authenticated => {
+      setMystate({ keycloak: keycloak, isAuthenticated: authenticated })
+      console.log(authenticated);
+      if (mystate.isAuthenticated) {
+        localStorage.setItem('auth-token', keycloak.token)
+      }
+
+    });
+  }, []);
   return (
     <BrowserRouter>
       <Switch>
@@ -36,7 +53,7 @@ export default function App() {
       <Route
         {...rest}
         render={props =>
-          isAuthenticated ? (
+          mystate.isAuthenticated ? (
             React.createElement(component, props)
           ) : (
             <Redirect
@@ -58,7 +75,7 @@ export default function App() {
       <Route
         {...rest}
         render={props =>
-          isAuthenticated ? (
+          mystate.isAuthenticated ? (
             <Redirect
               to={{
                 pathname: "/",
