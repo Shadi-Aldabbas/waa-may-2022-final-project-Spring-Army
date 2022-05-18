@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,10 +17,16 @@ public class PropertyDto {
 
     private int id;
     private Address address;
+    @Min(value = 1, message = "Bed room must be greater than or one")
     private int numberOfBedrooms;
+    @Min(value = 1, message = "Bath room must be greater than or one")
     private int numberOfBathrooms;
+    @Min(value = 0, message = "Rent must be a number")
     private double rentAmount;
+    @Min(value = 0, message = "Security Amount must be a number")
+    //@Pattern(regexp="\\d+$", message = "Security Amount must be a number")
     private double securityDepositAmount;
+
     private User ownedBy;
     private boolean isRented;
     private boolean isDeleted;

@@ -24,8 +24,8 @@ public class PropertyServiceImpl implements PropertyService {
     private final ModelMapper modelMapper;
 
     @Override
-    public PropertyDto save(Property p) {
-        return modelMapper.map(propertyRepository.save(p), PropertyDto.class);
+    public PropertyDto save(PropertyDto p) {
+        return modelMapper.map(propertyRepository.save(modelMapper.map(p, Property.class)), PropertyDto.class);
     }
 
     @Override
