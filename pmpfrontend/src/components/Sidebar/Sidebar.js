@@ -10,6 +10,7 @@ import {
   LibraryBooks as LibraryIcon,
   HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon,
+  Person as UserIcon
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -59,6 +60,9 @@ const structure = [
   { id: 2, label: "Property", link: "/app/properties", icon: <TableIcon /> ,  children: [
     { label: "View", link: "/app/properties/view" },
     { label: "Add", link: "/app/properties/add" },
+  ],},
+  { id: 2, label: "Users", link: "/app/users", icon: <UserIcon /> ,  children: [
+    { label: "View", link: "/app/users/view" },
   ],},
   { id: 7, label: "Library", link: "https://flatlogic.com/templates", icon: <LibraryIcon /> },
   { id: 8, label: "Support", link: "https://flatlogic.com/forum", icon: <SupportIcon /> },

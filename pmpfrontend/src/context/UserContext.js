@@ -70,7 +70,9 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
 }
 
 function signOut(dispatch, history) {
-  localStorage.removeItem("id_token");
+ 
+  localStorage.removeItem("auth-token");
+  
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
 }

@@ -104,7 +104,7 @@ export default function Dashboard(props) {
   return (
     <Grid container justifyContent="space-between" alignItems="baseline">
       <Grid item xs={12}>
-        <Widget title="Line Chart" upperTitle>
+        <Widget title="Properties rented this week" upperTitle>
           <Grid container direction="column" justifyContent="center">
             <Grid item xs={12}>
               <div style={{ width: "100%", height: 300 }}>
@@ -125,7 +125,7 @@ export default function Dashboard(props) {
         </Widget>
       </Grid>
       <Grid item xs={6}>
-        <Widget title="Donut Chart" upperTitle>
+        <Widget title="Total Income By Address" upperTitle>
           <Grid
             container
             direction="column"
@@ -150,7 +150,7 @@ export default function Dashboard(props) {
       </Grid>
       <Grid item xs={6}>
         <MUIDataTable
-          title="Employee List"
+          title="Last 10 logged in Users"
           data={
             last10PropertiesRented
               ? last10PropertiesRented.map((item) => {

@@ -95,7 +95,7 @@ export default function Header(props) {
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
   var userDispatch = useUserDispatch();
-
+  const tok = localStorage.getItem("auth-token")
   // local
   var [mailMenu, setMailMenu] = useState(null);
   var [isMailsUnread, setIsMailsUnread] = useState(true);
@@ -326,7 +326,11 @@ export default function Header(props) {
             <Typography
               className={classes.profileMenuLink}
               color="primary"
-              onClick={() => signOut(userDispatch, props.history)}
+              onClick={() => {
+                
+                //window.location.assign("http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/logout?id_token_hint=" + tok + "&post_logout_redirect_uri=" + this.redirectUri);
+                //signOut(userDispatch, props.history)
+              } }
             >
               Sign Out
             </Typography>
