@@ -23,7 +23,7 @@ export default function App() {
   });
   useEffect(() => {
     const keycloak = Keycloak("/keycloak.json");
-    keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).then(authenticated => {
+    keycloak.init({ onLoad: "login-required", checkLoginIframe: false, promiseType: 'native'}).then(authenticated => {
       setMystate({ keycloak: keycloak, isAuthenticated: authenticated })
       console.log(authenticated);
       if (mystate.isAuthenticated) {
