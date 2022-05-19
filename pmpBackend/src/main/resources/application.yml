@@ -43,7 +43,7 @@ server:
 
 keycloak:
   realm: pmp
-  auth-server-url: http://127.0.0.1:8024/auth
+  auth-server-url: http://localhost:8024/auth
   resource: pmpapp
   bearer-only: true
   ssl-required: none

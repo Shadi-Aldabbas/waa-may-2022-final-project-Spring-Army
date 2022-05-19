@@ -43,7 +43,7 @@ export default function Properties() {
     const fetch = async () =>{
       const propertiesData = await getAllProperties();
       setProperties(propertiesData.data);
-      // console.log(properties);
+       console.log(propertiesData);
     }
     fetch();
   }, [fetchAgain]);

@@ -57,7 +57,8 @@ export default function Property({ data , handleDelete}) {
         <Grid item align="center" xs={12}>
           <img
             width="360px"
-            src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+            height="300px"
+            src={data?.photos.length != 0 ? data.photos[0]: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"}
           />
           <Grid item align="start" xs={11}>
             <Typography variant="h4">
