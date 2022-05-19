@@ -38,14 +38,26 @@ export const addFile = async (file) => {
   return data;
 };
 
-export const addProperty = async (info, address, user) =>
-  axios
-    .post(`${baseUrl}`, {
+export const addProperty = async (info, address, user,uploadedFiles) =>
+{
+  console.log("url, files, config",info, address, user, uploadedFiles);
+  const getToken = localStorage.getItem("auth-token");
+  const config = {
+    headers: { Authorization: `Bearer ${getToken}` }
+};
+ let result = await axios
+    .post(`${baseUrl}properties`, {
       ...info,
       address: { ...address },
       ownedBy: { ...user },
-    })
+      photos:uploadedFiles
+    },config)
     .then(({ data }) => data);
+return result;
+  }
+
+
+
 export const addFilesForProperty = async (files) => {
   const url = `${baseUrl}file-uploads`;
   const formData = new FormData();

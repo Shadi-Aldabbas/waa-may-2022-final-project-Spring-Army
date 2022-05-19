@@ -11,7 +11,7 @@ import { Snackbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { DropzoneAreaBase } from "material-ui-dropzone";
 import { addProperty, addFilesForProperty, addFile } from "./service.property";
-
+import { ToastContainer, toast } from 'react-toastify';
 const useStyles = makeStyles((theme) => ({
   tableOverflow: {
     overflow: "auto",
@@ -45,23 +45,29 @@ export default function AddProperty() {
     successMessage: 'Requested successfully!',
     failureMessage: 'Failed to request campaign!',
   });
-
+  const [files, setFiles] = useState([]);
+  const [uploadedFiles, setuploadedFiles] = useState([]);
   const handleCreate = async () => {
-    const listOfPaths = await addFilesForProperty(files);
+   // const listOfPaths = await addFilesForProperty(files);
     try {
-      // console.log(listOfPaths);
-      // const addedProperty = await addProperty(
-      //   property,
-      //   address,
-      //   user,
-      //   listOfPaths
-      // );
+      
+      const addedProperty = await addProperty(
+        property,
+        address,
+        user,
+        uploadedFiles
+      ).then((res) =>{
+        toast(res.message);
+      });
+      console.log(addedProperty)
+    
+
       setSnackbar({ ...snackbar, success: true });
     } catch (e) {
       setSnackbar({ ...snackbar, failed: true });
     }
   };
-  const [files, setFiles] = useState([]);
+
   const [address, setAddress] = useState({
     city: "",
     state: "",
@@ -89,6 +95,8 @@ export default function AddProperty() {
   const handleAddressChange = (prop) => (event) => {
     setAddress({ ...address, [prop]: event.target.value });
   };
+
+  //ADD PICTURE
   const handleAdd = async (newFiles) => {
 
     let addedFile = newFiles.filter(file => !files.find(f => f.data === file.data));
@@ -101,6 +109,7 @@ export default function AddProperty() {
   
     const path = await addFile(formData);
     console.log(path)
+    setuploadedFiles([...uploadedFiles,path])
 
    
   };
@@ -111,6 +120,7 @@ export default function AddProperty() {
 
   return (
     <Grid container justify="center" alignItems="center">
+      <ToastContainer position="top-center"/>
       <Grid container spacing={2} xs={12}>
         <Grid item xs={12}>
           <Typography variant="h4" gutterBottom color="textPrimary">
