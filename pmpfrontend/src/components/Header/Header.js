@@ -20,7 +20,7 @@ import {
   ArrowBack as ArrowBackIcon,
 } from "@material-ui/icons";
 import classNames from "classnames";
-
+import SockJsClient from 'react-stomp';
 // styles
 import useStyles from "./styles";
 
@@ -92,6 +92,15 @@ const notifications = [
 
 export default function Header(props) {
   var classes = useStyles();
+
+  // useEffect(() => {
+    
+  //      setInterval(() => {
+  //      console.log("Listening")
+  //     }, 1000);
+    
+  // }, []);
+
 
   // global
   var layoutState = useLayoutState();
@@ -331,7 +340,7 @@ export default function Header(props) {
               className={classes.profileMenuLink}
               color="primary"
               onClick={() => {
-                console.log(userData.logout());
+               // console.log(userData.logout());
                 // localStorage.clear();
                 // window.location.href = '/';
                 //window.location.assign("http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/logout?id_token_hint=" + tok + "&post_logout_redirect_uri=" + this.redirectUri);
@@ -340,6 +349,9 @@ export default function Header(props) {
             >
               Sign Out
             </Typography>
+            <SockJsClient url='http://localhost:8080/ws' topics={['/topics/all']}
+            onMessage={(msg) => { console.log(msg); }}
+            ref={ (client) => { this.clientRef = client }} />
           </div>
         </Menu>
       </Toolbar>

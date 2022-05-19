@@ -21,6 +21,16 @@ export const deleteProperty = async (id) => {
   return data;
 };
 
+export const addFile = async (file) => {
+  const url = `${baseUrl}file-uploads`;
+  const config = {
+    headers: { 'content-type': 'multipart/form-data;boundary=gc0p4Jq0M2Yt08jU534c0p' }
+   };
+  const { data } = await axiosInstance.post(url,file,config);
+  // console.log("data", data);
+  return data;
+};
+
 export const addProperty = async (info, address, user) =>
   axios
     .post(`${baseUrl}`, {

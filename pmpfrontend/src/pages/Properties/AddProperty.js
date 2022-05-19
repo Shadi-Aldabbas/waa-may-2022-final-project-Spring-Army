@@ -10,7 +10,7 @@ import {
 import { Snackbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { DropzoneAreaBase } from "material-ui-dropzone";
-import { addProperty, addFilesForProperty } from "./service.property";
+import { addProperty, addFilesForProperty, addFile } from "./service.property";
 
 const useStyles = makeStyles((theme) => ({
   tableOverflow: {
@@ -90,9 +90,15 @@ export default function AddProperty() {
     setAddress({ ...address, [prop]: event.target.value });
   };
   const handleAdd = async (newFiles) => {
-    const path = await addFilesForProperty(newFiles);
-    // console.log(path);
+    console.log(newFiles[0].file)
+    let formData = new FormData();
+    formData.append("file", newFiles[0].file);
+    
+  
+    const path = await addFile(formData);
+    console.log(path)
 
+   
     // newFiles = newFiles.filter(
     //   (file) => !files.find((f) => f.data === file.data),
     // );
@@ -228,7 +234,10 @@ export default function AddProperty() {
             acceptedFiles={["image/*", "video/*", "application/*"]}
             fileObjects={files}
             maxFileSize={50000000}
+            showPreviews={true}
+            showPreviewsInDropzone={true}
             onAdd={handleAdd}
+            //onDrop={handleAdd}
             filesLimit={20}
             onDelete={handleFileDelete}
           />
