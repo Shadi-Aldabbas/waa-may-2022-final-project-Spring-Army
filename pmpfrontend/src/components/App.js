@@ -36,7 +36,6 @@ export default function App() {
       .then((authenticated) => {
         setMystate({ keycloak: keycloak, isAuthenticated: authenticated });
         if (mystate.isAuthenticated) {
-          console.log(keycloak);
           localStorage.setItem("auth-token", keycloak.token);
           setUserData({
             name:keycloak.idTokenParsed.preferred_username,

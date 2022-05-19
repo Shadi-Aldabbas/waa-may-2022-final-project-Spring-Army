@@ -105,7 +105,7 @@ public class PropertyController {
     }
 
     @GetMapping("/next-month")
-    @RolesAllowed(Constants.ADMIN)
+    @RolesAllowed({Constants.ADMIN, Constants.LANDLOARD})
     public ResponseEntity<GenericResponse> findPropertyByLeaseEndinginMonth() {
         var result = propertyService.findPropertyByLeaseEndinginMonth();
 
