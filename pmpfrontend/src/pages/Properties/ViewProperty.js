@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { Button, Grid } from "@material-ui/core";
+import React, { useState, useEffect,useContext } from "react";
 import { makeStyles } from "@material-ui/styles";
-import MUIDataTable from "mui-datatables";
-import { ToastContainer, toast } from 'react-toastify';
+import moment from "moment";
 import 'react-toastify/dist/ReactToastify.css';
 import PageTitle from "../../components/PageTitle/PageTitle";
-import Widget from "../../components/Widget/Widget";
-import Table from "../dashboard/components/Table/Table";
-import mock from "../dashboard/mock";
+import { Typography, Grid, Paper, Button } from "@material-ui/core";
+import AttachMoney from "@material-ui/icons/AttachMoney";
+import DeleteIcon from "@material-ui/icons/Delete";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import { useParams } from "react-router-dom";
 import { getPropertyById } from "./service.property";
+import StripeCheckout from "react-stripe-checkout";
+import NumberFormat from "react-number-format";
+import { UserContext } from "../../ourUserContext";
+import axiosInstance from "../../utils/interceptor";
 const datatableData = [
     ["Joe James", "Example Inc.", "Yonkers", "NY"],
     ["John Walsh", "Example Inc.", "Hartford", "CT"],
@@ -34,13 +36,37 @@ const datatableData = [
   
 
   
-const useStyles = makeStyles((theme) => ({
-  tableOverflow: {
-    overflow: "auto",
-  },
-}));
+
+  const useStyles = makeStyles((theme) => ({
+    Paper: {
+      padding: "20px 0px 20px 0px !important",
+      margin: "20px !important",
+      borderRadius: "10px",
+    },
+    secondary: {
+      backgroundColor: "#c70000",
+    },
+    Button: {
+      margin: "20px 0px 20px 10px !important",
+    },
+    TextField: {
+      margin: "20px 0px 20px 0px !important",
+    },
+    stripeButton: {
+      color: "red !important",
+    },
+  }));
 
 export default function ViewPropery() {
+    const { userData } = useContext(UserContext);
+    const classes = useStyles();
+    const [userRole, setUSerRole] = useState(
+      userData.roles.includes("admin")
+        ? "admin"
+        : userData.roles.includes("landlord")
+        ? "landlord"
+        : "tenant",
+    );
     const { id } = useParams();
     const [properties, setProperties] = useState();
   useEffect(() => {
@@ -52,8 +78,47 @@ export default function ViewPropery() {
       }
       fetch();
   }, []);
+  const publishableKey =
+  "pk_test_51KyhH9HIoQnhhgnMLhLiuKU8EkKdT0V6eUBzIJiKKcUw0u7YlgGdSxNlYCJLh4QiMCz0bfLdQIldzC8QXTNndJ2C00fk1i4QWh";
 
+  const onToken = (token) => {
+    axiosInstance
+      .post("http://localhost:8080/api/v1/payment", {
+        amount: stripePrice,
+        token,
+      })
+      .then((response) => {
+        console.log({
+          owner: {
+            id:properties.ownedBy.id
+            },
+            price:parseFloat(properties?.rentAmount),
+            startDate:moment().format('YYYY-MM-DD'),
+            endDate:moment().add(30, 'days').format('YYYY-MM-DD'),
+            isDeleted: false,
+            property: properties
+        });
+        axiosInstance.post("http://localhost:8080/api/v1/rent", {
+          owner: {
+            id:properties.ownedBy.id
+            },
+            price:parseFloat(properties?.rentAmount),
+            startDate:moment().format('YYYY-MM-DD'),
+            endDate:moment().add(30, 'days').format('YYYY-MM-DD'),
+            isDeleted: false,
+            property: properties
+        }).then((response)=>{
+          console.log(response);
+        })
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  
 
+  const stripePrice = properties?.rentAmount * 100;
   
   return (
     <>
@@ -74,16 +139,70 @@ export default function ViewPropery() {
           
            
           :
-          <div>asdas</div>
+          <div></div>
           
        }
                
             
                
             </Carousel>
+            <Grid item align="start" xs={11}>
+            <Typography variant="h4">
+              <NumberFormat
+                value={properties?.rentAmount}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+              />
+            </Typography>
+          </Grid>
+          <Grid item align="start" xs={11}>
+            <Typography variant="body1">
+              {properties?.propertyType} {properties?.numberOfBedrooms} bds{" "}
+              {properties?.numberOfBathrooms} bths - for rent
+            </Typography>
+          </Grid>
+          <Grid item align="start" xs={11}>
+            <Typography variant="body1">
+              {properties?.address?.state} {properties?.address?.city}{" "}
+              {properties?.address?.street} - {properties?.address?.zipCode}
+            </Typography>
+          </Grid>
+          <Grid item align="start" xs={11}>
+            <Typography variant="caption">
+              {properties?.ownedBy?.firstName} {properties?.ownedBy?.lastname}{" "}
+            </Typography>
+          </Grid>
+          <Grid item align="end" xs={11}>
+          
+
+            {userRole === "tenant" ? (
+              <StripeCheckout
+                className={classes.stripeButton}
+                amount={stripePrice}
+                label="Rent"
+                panelLabel="Rent"
+                token={onToken}
+                stripeKey={publishableKey}
+                currency="USD"
+                bitcoin={true}
+                alipay={true}
+              >
+                <Button
+                  className={classes.Button}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AttachMoney />}
+                >
+                  Rent
+                </Button>
+              </StripeCheckout>
+            ) : (
+              ""
+            )}
+          </Grid>
          </Grid>
    
-       <Button >test</Button>
       </Grid>
     </>
   );
