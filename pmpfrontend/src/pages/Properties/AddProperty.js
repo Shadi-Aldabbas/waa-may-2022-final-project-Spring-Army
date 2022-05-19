@@ -90,6 +90,10 @@ export default function AddProperty() {
     setAddress({ ...address, [prop]: event.target.value });
   };
   const handleAdd = async (newFiles) => {
+
+    let addedFile = newFiles.filter(file => !files.find(f => f.data === file.data));
+    setFiles([...files, ...addedFile]);
+
     console.log(newFiles[0].file)
     let formData = new FormData();
     formData.append("file", newFiles[0].file);
@@ -99,10 +103,6 @@ export default function AddProperty() {
     console.log(path)
 
    
-    // newFiles = newFiles.filter(
-    //   (file) => !files.find((f) => f.data === file.data),
-    // );
-    // setFiles([...files, path]);
   };
 
   const handleFileDelete = (deleted) => {
@@ -234,10 +234,8 @@ export default function AddProperty() {
             acceptedFiles={["image/*", "video/*", "application/*"]}
             fileObjects={files}
             maxFileSize={50000000}
-            showPreviews={true}
             showPreviewsInDropzone={true}
             onAdd={handleAdd}
-            //onDrop={handleAdd}
             filesLimit={20}
             onDelete={handleFileDelete}
           />
