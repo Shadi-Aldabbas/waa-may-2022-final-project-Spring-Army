@@ -8,7 +8,7 @@ import NumberFormat from "react-number-format";
 import AttachMoney from "@material-ui/icons/AttachMoney";
 import DeleteIcon from "@material-ui/icons/Delete";
 import axiosInstance from "../../utils/interceptor";
-import {paymentWithStrip} from "../../pages/Properties/service.property"
+import { paymentWithStrip } from "../../pages/Properties/service.property";
 
 import { deleteProperty } from "../../pages/Properties/service.property";
 import { UserContext } from "../../ourUserContext";
@@ -49,7 +49,7 @@ export default function Property({ data, handleDelete }) {
   const publishableKey =
     "pk_test_51KyhH9HIoQnhhgnMLhLiuKU8EkKdT0V6eUBzIJiKKcUw0u7YlgGdSxNlYCJLh4QiMCz0bfLdQIldzC8QXTNndJ2C00fk1i4QWh";
   const stripePrice = data?.rentAmount * 100;
-console.log(data);
+  console.log(data);
   const onToken = (token) => {
     axiosInstance
       .post("http://localhost:8080/api/v1/payment", {
@@ -59,45 +59,54 @@ console.log(data);
       .then((response) => {
         console.log({
           owner: {
-            id:data.ownedBy.id
-            },
-            price:parseFloat(data?.rentAmount),
-            startDate:moment().format('YYYY-MM-DD'),
-            endDate:moment().add(30, 'days').format('YYYY-MM-DD'),
-            isDeleted: false,
-            property: data
+            id: data.ownedBy.id,
+          },
+          price: parseFloat(data?.rentAmount),
+          startDate: moment().format("YYYY-MM-DD"),
+          endDate: moment().add(30, "days").format("YYYY-MM-DD"),
+          isDeleted: false,
+          property: data,
         });
-        axiosInstance.post("http://localhost:8080/api/v1/rent", {
-          owner: {
-            id:data.ownedBy.id
+        axiosInstance
+          .post("http://localhost:8080/api/v1/rent", {
+            owner: {
+              id: data.ownedBy.id,
             },
-            price:parseFloat(data?.rentAmount),
-            startDate:moment().format('YYYY-MM-DD'),
-            endDate:moment().add(30, 'days').format('YYYY-MM-DD'),
+            price: parseFloat(data?.rentAmount),
+            startDate: moment().format("YYYY-MM-DD"),
+            endDate: moment().add(30, "days").format("YYYY-MM-DD"),
             isDeleted: false,
-            property: data
-        }).then((response)=>{
-          console.log(response);
-        })
+            property: data,
+          })
+          .then((response) => {
+            console.log(response);
+          });
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  
 
   return (
     <>
       <Paper className={classes.Paper}>
-        
-      <Link to={"/app/properties/ViewProperty/"+  data?.id}  style={{ textDecoration: 'none' }}>
         <Grid item align="center" xs={12}>
-          <img
-            width="360px"
-            height="300px"
-            src={data?.photos.length != 0 ? data.photos[0]: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"}
-          />
+          <Link
+            to={"/app/properties/ViewProperty/" + data?.id}
+            style={{ textDecoration: "none" }}
+          >
+            <img
+              width="360px"
+              height="300px"
+              src={
+                data?.photos.length != 0
+                  ? data.photos[0]
+                  : "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
+              }
+            />
+          </Link>
+
           <Grid item align="start" xs={11}>
             <Typography variant="h4">
               <NumberFormat
@@ -166,7 +175,6 @@ console.log(data);
             )}
           </Grid>
         </Grid>
-        </Link>
       </Paper>
     </>
   );
