@@ -32,12 +32,12 @@ import {
 
 const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
-  {
-    id: 1,
-    label: "Typography",
-    link: "/app/typography",
-    icon: <TypographyIcon />,
-  },
+  // {
+  //   id: 1,
+  //   label: "Typography",
+  //   link: "/app/typography",
+  //   icon: <TypographyIcon />,
+  // },
   { id: 2, label: "Tables", link: "/app/tables", icon: <TableIcon /> },
   {
     id: 3,
@@ -45,18 +45,18 @@ const structure = [
     link: "/app/notifications",
     icon: <NotificationsIcon />,
   },
-  {
-    id: 4,
-    label: "UI Elements",
-    link: "/app/ui",
-    icon: <UIElementsIcon />,
-    children: [
-      { label: "Icons", link: "/app/ui/icons" },
-      { label: "Charts", link: "/app/ui/charts" },
-    ],
-  },
+  // {
+  //   id: 4,
+  //   label: "UI Elements",
+  //   link: "/app/ui",
+  //   icon: <UIElementsIcon />,
+  //   children: [
+  //     { label: "Icons", link: "/app/ui/icons" },
+  //     { label: "Charts", link: "/app/ui/charts" },
+  //   ],
+  // },
   { id: 5, type: "divider" },
-  { id: 6, type: "title", label: "HELP" },
+  { id: 6, type: "title", label: "MANAGE" },
   { id: 2, label: "Property", link: "/app/properties", icon: <TableIcon /> ,  children: [
     { label: "View", link: "/app/properties/view" },
     { label: "Add", link: "/app/properties/add" },
@@ -64,7 +64,7 @@ const structure = [
   { id: 2, label: "Users", link: "/app/users", icon: <UserIcon /> ,  children: [
     { label: "View", link: "/app/users/view" },
   ],},
-  { id: 7, label: "Library", link: "https://flatlogic.com/templates", icon: <LibraryIcon /> },
+  // { id: 7, label: "Library", link: "https://flatlogic.com/templates", icon: <LibraryIcon /> },
   { id: 8, label: "Support", link: "https://flatlogic.com/forum", icon: <SupportIcon /> },
   { id: 9, label: "FAQ", link: "https://flatlogic.com/forum", icon: <FAQIcon /> },
   { id: 10, type: "divider" },
