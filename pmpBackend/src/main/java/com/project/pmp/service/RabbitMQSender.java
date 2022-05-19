@@ -39,9 +39,9 @@ public class RabbitMQSender {
         n.setRead(false);
         User u = new User();
        // u.setId(28);
-        u.setFirstName("Hasim");
-        n.setUser(u);
-        notificationRepository.save(n);
+      //  u.setFirstName("Hasim");
+       // n.setUser(u);
+     //   notificationRepository.save(n);
         rabbitTemplate.convertAndSend(this.queue.getName(), n.getMessage());
     }
 
