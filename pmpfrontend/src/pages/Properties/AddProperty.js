@@ -67,7 +67,7 @@ export default function AddProperty() {
       setSnackbar({ ...snackbar, failed: true });
     }
   };
-
+  
   const [address, setAddress] = useState({
     city: "",
     state: "",
