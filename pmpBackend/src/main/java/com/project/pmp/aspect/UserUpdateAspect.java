@@ -40,6 +40,7 @@ public class UserUpdateAspect {
 
         UserDto loUser = userDetails.getUserDetails();
         UserDto result = userService.getById(loUser.getId());
+
         if(result != null){
             result.setSetLastLoggedInAt(new Date());
             userService.update(loUser.getId(), result);

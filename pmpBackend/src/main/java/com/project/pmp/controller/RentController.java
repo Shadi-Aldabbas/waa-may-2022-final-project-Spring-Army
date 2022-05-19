@@ -1,12 +1,16 @@
 package com.project.pmp.controller;
 
 import com.project.pmp.dto.GenericResponse;
+import com.project.pmp.dto.UserDto;
 import com.project.pmp.entity.Rent;
 import com.project.pmp.entity.Property;
+import com.project.pmp.entity.User;
 import com.project.pmp.security.Constants;
+import com.project.pmp.security.UserDetails;
 import com.project.pmp.service.RentService;
 import com.project.pmp.service.SmsService;
 import com.project.pmp.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +28,16 @@ public class RentController {
     private UserService userService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private UserDetails userDetails;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @PostMapping
     @RolesAllowed({Constants.ADMIN, Constants.TENANT, Constants.LANDLOARD})
     public ResponseEntity<GenericResponse> save(@RequestBody Rent p) {
+        p.setTenant(modelMapper.map(userDetails.getUserDetails(), User.class));
+        p.setOwner(modelMapper.map(userService.getById(p.getOwner().getId()), User.class));
         var rent = rentService.save(p);
         if(rent != null){
             var owner = userService.getById(p.getOwner().getId());

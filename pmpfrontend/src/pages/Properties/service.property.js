@@ -3,6 +3,13 @@ import axiosInstance from "../../utils/interceptor";
 // import moment from 'moment';
 const baseUrl = "http://localhost:8080/api/v1/";
 
+const publishableKey = "pk_test_51KyhH9HIoQnhhgnMLhLiuKU8EkKdT0V6eUBzIJiKKcUw0u7YlgGdSxNlYCJLh4QiMCz0bfLdQIldzC8QXTNndJ2C00fk1i4QWh";
+
+export const paymentWithStrip = async (token, price) => {
+  const { data } = await axiosInstance.get(`${baseUrl}properties/top10`);
+  // console.log("data", data);
+  return data;
+};
 export const getTop10Properties = async () => {
   const { data } = await axiosInstance.get(`${baseUrl}properties/top10`);
   // console.log("data", data);

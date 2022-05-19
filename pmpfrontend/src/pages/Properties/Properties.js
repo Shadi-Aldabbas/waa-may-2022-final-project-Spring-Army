@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import Property from "../../components/Property/property";
 import { deleteProperty, getAllProperties } from "./service.property";
 import { ToastContainer, toast } from 'react-toastify';
+import { UserContext } from "../../ourUserContext";
+
 import 'react-toastify/dist/ReactToastify.css';
 const PropertiesData = [
   {
@@ -34,6 +36,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Properties() {
   const classes = useStyles();
+  const { userData } = useContext(UserContext);
+  const [userRole, setUSerRole] = useState(
+    userData.roles.includes("admin")
+      ? "admin"
+      : userData.roles.includes("landlord")
+      ? "landlord"
+      : "tenant",
+  );
   const [properties, setProperties] = useState([]);
   const [fetchAgain, setFetchAgain] = useState(false);
 
