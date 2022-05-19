@@ -8,15 +8,15 @@ There are three roles in this system- Landlord, Admin, and Tenant.
  - Tenant is the one who is looking for a rental house. She/He can search the house according to the requirements and get the results accordingly.
 
 Dashboard Page for admins:
-- Display the last 10 properties rented.
-- Display 10 most recent tenants.
-- Display total income per location. 
+- Display the last 10 properties rented. // Done
+- Display 10 most recent tenants. // Done
+- Display total income per location.  // Done
 - Add more features as you see fit.
 
 Dashboard Page for landlords:
-- Display properties.
-- Display total income per location.
-- Display 10 properties whose leases end in a month.
+- Display properties. // Done
+- Display total income per location. // Done
+- Display 10 properties whose leases end in a month. // Done
 - Add more features as you see fit.
 
 ####  Functional  Requirements
@@ -26,7 +26,7 @@ Dashboard Page for landlords:
 	* Can upload pictures of the property.
 	* Optional: Use cloud services like Amazon S3 or Google Cloud Storage.
 * Landlords can only see their own properties and manage them.
-	* Can unlist the property.
+	* Can unlist the property. // Done
 * Landlords and Tenants can filter properties:
 	* by occupation.
 	* by a number of rooms.
