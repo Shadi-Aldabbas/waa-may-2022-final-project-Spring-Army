@@ -76,20 +76,7 @@ public class PropertyController {
            result.addAll(propertyService.getAll().stream().filter(x->x.getOwnedBy().getRole().getId() == 3).collect(Collectors.toList()));
 
        }else{
-           var rentedProperty = rentService.getAll().stream().filter(x->x.getTenant().getId() == userDetails.getUserDetails().getId()).collect(Collectors.toList());
-           var propertyList = propertyService.getAll();
-
-           rentedProperty.forEach(item ->{
-               propertyList.forEach(prop ->{
-                   if(prop.getId() == item.getProperty().getId()){
-                       result.add(prop);
-                   }
-
-               });
-           });
-
-
-
+           result.addAll(propertyService.getAll());
        }
 
         return ResponseEntity.ok(new GenericResponse(result.size()+" Property Found", 200, result));

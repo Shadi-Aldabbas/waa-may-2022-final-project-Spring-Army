@@ -49,7 +49,7 @@ keycloak:
   ssl-required: none
   use-resource-role-mappings: true
   credentials:
-    secret: os3bY12bBi4xzrV5rI5SRHrEXaxvlLcg
+    secret: g1957Ot4y1VsSwXbojzYTeL5UtILccmr
 
 amazonProperties:
   endpointUrl: https://s3.us-east-1.amazonaws.com
