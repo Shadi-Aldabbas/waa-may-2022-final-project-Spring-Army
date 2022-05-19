@@ -1,0 +1,65 @@
+spring:
+  main:
+    allow-circular-references: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  application:
+    name: spring-data-demo-1
+  datasource:
+    password: SpringArmy
+    url: jdbc:postgresql://postgresql-78373-0.cloudclusters.net:19868/pmp
+    username: waaUser
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          pmp-oauth2 0-react-client:
+#            client-id: pmp-oauth2.0-react-client
+#            provider: keycloak
+#            client-secret: sbnoht5x1pbplRYdjv8gvttZtiHve2nq
+#            scope:
+#             - openid
+#             - profile
+#             - roles
+#            authorization-grant-type: authorization_code
+#            redirect-uri: http://localhost:8080/login/oauth2/code/pmp-oauth2.0-react-client
+#        provider:
+#          keycloak:
+#            issuer-uri: http://127.0.0.1:8024/auth/realms/pmp-oauth2.0-react-client
+server:
+  port: 8080
+
+keycloak:
+  realm: pmp
+  auth-server-url: http://localhost:8024/auth
+  resource: pmpapp
+  bearer-only: true
+  ssl-required: none
+  use-resource-role-mappings: true
+  credentials:
+    secret: g1957Ot4y1VsSwXbojzYTeL5UtILccmr
+
+amazonProperties:
+  endpointUrl: https://s3.us-east-1.amazonaws.com
+  accessKey: AKIAXCVZWRG63YNWNZFZ
+  secretKey: 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
+  bucketName: pmp-file-upload
+  region: us-east-1
+
+
+
+
+
+

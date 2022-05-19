@@ -1,0 +1,6 @@
+{
+    "realm": "pmp",
+    "auth-server-url": "http://localhost:8024/auth/",
+    "ssl-required": "external",
+    "resource": "pmpapp-react"
+  }
