@@ -14,6 +14,11 @@ export const getAllProperties = async () => {
   // console.log("data", data);
   return data;
 };
+export const getPropertyById = async (id) => {
+  const { data } = await axiosInstance.get(`${baseUrl}properties/${id}`);
+   console.log("data", data);
+  return data;
+};
 
 export const deleteProperty = async (id) => {
   const { data } = await axiosInstance.delete(`${baseUrl}properties/${id}`);

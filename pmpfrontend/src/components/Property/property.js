@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-
+import { useNavigate } from 'react-router';
 import { Typography, Grid, Paper, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import NumberFormat from "react-number-format";
@@ -9,6 +9,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { deleteProperty } from "../../pages/Properties/service.property";
 
 import StripeCheckout from "react-stripe-checkout";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   Paper: {
@@ -50,10 +51,13 @@ export default function Property({ data , handleDelete}) {
         // console.log(error);
       });
   };
+  
 
   return (
     <>
       <Paper className={classes.Paper}>
+        
+      <Link to={"/app/properties/ViewProperty/"+  data?.id}  style={{ textDecoration: 'none' }}>
         <Grid item align="center" xs={12}>
           <img
             width="360px"
@@ -122,6 +126,7 @@ export default function Property({ data , handleDelete}) {
             </StripeCheckout>
           </Grid>
         </Grid>
+        </Link>
       </Paper>
     </>
   );
