@@ -9,7 +9,7 @@ import com.project.pmp.entity.Property;
 import java.util.List;
 
 public interface PropertyService {
-    PropertyDto save(Property p);
+    PropertyDto save(PropertyDto p);
 
     boolean delete(int id);
 

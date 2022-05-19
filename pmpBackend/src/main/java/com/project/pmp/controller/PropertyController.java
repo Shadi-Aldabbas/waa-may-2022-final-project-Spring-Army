@@ -2,7 +2,6 @@ package com.project.pmp.controller;
 
 import com.project.pmp.dto.*;
 import com.project.pmp.entity.User;
-import com.project.pmp.entity.Property;
 import com.project.pmp.security.Constants;
 import com.project.pmp.security.UserDetails;
 import com.project.pmp.service.AddressService;
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,9 +38,10 @@ public class PropertyController {
     private  ModelMapper modelMapper;
 
 
-    @RolesAllowed({Constants.ADMIN,Constants.LANDLOARD})
+
     @PostMapping
-    public GenericResponse save(@RequestBody Property p) {
+    @RolesAllowed({Constants.ADMIN,Constants.LANDLOARD})
+    public GenericResponse save( @Valid @RequestBody PropertyDto p) {
 
         var user = userDetails.getUserDetails();
 
