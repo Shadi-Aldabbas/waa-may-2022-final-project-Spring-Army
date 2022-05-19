@@ -103,7 +103,7 @@ const DefaultDonutChart = ({
                   </Surface>
                 </span>
                 <span style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
-                  {entry.value}
+                  ${entry.value}
                 </span>
               </span>
             </span>

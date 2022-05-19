@@ -8,12 +8,17 @@ export const totalIncomePerLocation = async () => {
 };
 export const getAllPropertiesForLandlord = async () => {
   const { data } = await axiosInstance.get(`${baseUrl}properties`);
-  console.log("properties for landlord", data);
+  // console.log("properties for landlord", data);
   return data;
 };
 export const totalRentedPropertiesPerDayForWeek = async () => {
   const { data } = await axiosInstance.get(`${baseUrl}rent/weekhistory`);
   // console.log("weekhistory", data);
+  return data;
+};
+export const findPropertyByLeaseEndinginMonth = async () => {
+  const { data } = await axiosInstance.get(`${baseUrl}properties/next-month`);
+  console.log("next-month", data);
   return data;
 };
 export const getLast10PrpertiesRented = async () => {

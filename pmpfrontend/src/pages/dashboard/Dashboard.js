@@ -10,6 +10,7 @@ import {
   totalRentedPropertiesPerDayForWeek,
   getLast10PrpertiesRented,
   getAllPropertiesForLandlord,
+  findPropertyByLeaseEndinginMonth
 } from "./service.dashboard";
 import moment from "moment";
 
@@ -70,6 +71,7 @@ export default function Dashboard(props) {
   const [donutChartData, setDonutChartData] = useState("");
   const [lineChartData, setLineChartData] = useState("");
   const [propertiesTableData, setPropertiesTableData] = useState("");
+  const [propertiesEndingInMonth, setPropertiesEndingInMonth] = useState("");
   const [userRole, setUSerRole] = useState(
     userData.roles.includes("admin")
       ? "admin"
@@ -86,6 +88,8 @@ export default function Dashboard(props) {
       } else {
       const landlordProperties = await getAllPropertiesForLandlord();
         setPropertiesTableData(landlordProperties.data);
+      const propertiesLeasesInMonth = await findPropertyByLeaseEndinginMonth();
+      setPropertiesEndingInMonth(propertiesLeasesInMonth.data);
       }
     };
     getData();
@@ -93,7 +97,7 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     const getData = async () => {
-      if (userRole === "admin"){
+     
       const incomePerLocationData = await totalIncomePerLocation();
 
       const data = [];
@@ -105,10 +109,13 @@ export default function Dashboard(props) {
           color: COLORS[index % 7],
         });
       });
+      console.log(data);
       setDonutChartData(data);
+    }
+
+    if (userRole === "admin" || userRole === "landlord" ){
+      getData();
     };
-  }
-    getData();
   }, [userRole]);
 
   useEffect(() => {
@@ -133,7 +140,7 @@ export default function Dashboard(props) {
 
 
   return (
-    <Grid container justifyContent="space-between" alignItems="baseline">
+    <Grid container>
       {userData.roles.includes("admin") && lineChartData ?
       <Grid item xs={12}>
         <Widget title="Properties rented this week" upperTitle>
@@ -156,7 +163,38 @@ export default function Dashboard(props) {
           </Grid>
         </Widget>
       </Grid>
-      : ''}
+      :  
+      <Grid item xs={12}>
+      <MUIDataTable
+        title="properties Leases in a month"
+        data={
+          propertiesEndingInMonth
+            ? propertiesEndingInMonth.map((item) => {
+                return [
+                  // item.ownedBy.firstName + " " + item.ownedBy.lastname,
+                  item.numberOfBedrooms,
+                  item.numberOfBedrooms,
+                  item.rentAmount,
+                  item.securityDepositAmount,
+                ];
+              })
+            : ["1", "1", "1", "1", "1"]
+        }
+        columns={[
+          // "Owner Name",
+          "Bathrooms",
+          "Bedrooms",
+          "Rent Price",
+          "Deposit Amount",
+        ]}
+        options={{
+          rowsPerPageOptions: [],
+          elevation: 0,
+          rowsPerPage: 6,
+          download: false,
+        }}
+      />
+    </Grid>}
       <Grid item xs={6}>
         <Widget title="Total Income By Address" upperTitle>
           <Grid
@@ -182,8 +220,6 @@ export default function Dashboard(props) {
         </Widget>
       </Grid>
       <Grid item xs={6}>
-        {console.log(propertiesTableData)}
-        {console.log(propertiesTableData)}
         <MUIDataTable
           title={
             userRole === "admin"
@@ -220,6 +256,7 @@ export default function Dashboard(props) {
           }}
         />
       </Grid>
+     
     </Grid>
   );
 }
